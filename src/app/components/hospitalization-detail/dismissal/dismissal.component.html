@@ -1,0 +1,89 @@
+<form>
+  <div class="container">
+    <div class="row px-0 py-4">
+      <ng-container *ngFor="let section of config?.sections">
+        <ng-container *ngFor="let item of section.items">
+          <div class="col-3" [ngClass]="item.class">
+            <ng-container *ngIf="item.type == 'text'" [ngTemplateOutlet]="text"
+                          [ngTemplateOutletContext]="{item:item}"></ng-container>
+            <ng-container *ngIf="item.type == 'textarea'" [ngTemplateOutlet]="textarea"
+                          [ngTemplateOutletContext]="{item:item}"></ng-container>
+            <ng-container *ngIf="item.type == 'number'" [ngTemplateOutlet]="number"
+                          [ngTemplateOutletContext]="{item:item}"></ng-container>
+            <ng-container *ngIf="item.type == 'select'" [ngTemplateOutlet]="select"
+                          [ngTemplateOutletContext]="{item:item}"></ng-container>
+            <ng-container *ngIf="item.type == 'datepicker'" [ngTemplateOutlet]="datepicker"
+                          [ngTemplateOutletContext]="{item:item}"></ng-container>
+            <ng-container *ngIf="item.type == 'autocomplete'" [ngTemplateOutlet]="autocomplete"
+                          [ngTemplateOutletContext]="{item:item}"></ng-container>
+            <ng-container *ngIf="item.type == 'checkbox'" [ngTemplateOutlet]="checkbox"
+                          [ngTemplateOutletContext]="{item:item}"></ng-container>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</form>
+
+<ng-template #text let-item='item'>
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>{{item.label}}</mat-label>
+    <input matInput type="text" [disabled]="item.disabled" [(ngModel)]="item.value">
+  </mat-form-field>
+</ng-template>
+
+<ng-template #textarea let-item='item'>
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>{{item.label}}</mat-label>
+    <textarea matInput type="text" [(ngModel)]="item.value"
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="200"></textarea>
+  </mat-form-field>
+</ng-template>
+
+<ng-template #checkbox let-item='item'>
+  <mat-checkbox class="mt-3 mx-4" color="primary" [(ngModel)]="item.value"
+                (change)="changeDisabled(item)"><mat-label>{{item.label}}</mat-label></mat-checkbox>
+</ng-template>
+
+<ng-template #autocomplete let-item='item'>
+  <mat-form-field class="example-full-width" appearance="outline" floatLabel="always" >
+    <mat-label>{{item.label}}</mat-label>
+    <input type="text" [(ngModel)]="item.value" matInput
+           [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option value="Linda Blahova">Linda Blahova</mat-option>
+      <mat-option value="Roman Dobrik">Roman Dobrik</mat-option>
+      <mat-option value="Jozef Petrik">Jozef Petrik</mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</ng-template>
+
+<ng-template #number let-item='item'>
+  <mat-form-field appearance="outline" floatLabel="always" >
+    <mat-label>{{item.label}}</mat-label>
+    <input matInput type="number" [(ngModel)]="item.value">
+  </mat-form-field>
+</ng-template>
+
+<ng-template #select let-item='item'>
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>{{item.label}}</mat-label>
+    <mat-select  [(ngModel)]="item.value">
+      <mat-option value="one">VSZP</mat-option>
+      <mat-option value="two">UNION</mat-option>
+      <mat-option value="three">DOVERA</mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>
+
+<ng-template #datepicker let-item='item'>
+  <mat-form-field appearance="outline" floatLabel="always" >
+    <mat-label>{{item.label}}</mat-label>
+    <input matInput [disabled]="item.disabled" [(ngModel)]="item.value" [matDatepicker]="picker1">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+</ng-template>

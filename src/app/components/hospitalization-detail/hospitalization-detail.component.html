@@ -1,0 +1,38 @@
+<mat-card >
+  <mat-card-actions>
+    <mat-card-title>
+      <div class="container">
+        <div class="row px-4 py-3" >
+          <h1 class="col-10 h1"><i class="fa fa-address-card-o"></i> Hospitalizácia 123456</h1>
+          <button mat-raised-button [color]="this.editMode ? 'edit' :'primary'" class="button col-2"
+                  (click)="this.switchMode()">{{this.buttonValue}}</button>
+        </div>
+      </div>
+    </mat-card-title>
+  </mat-card-actions>
+</mat-card>
+
+<app-info-row [editMode]="this.editMode">></app-info-row>
+
+<mat-card class="m-0">
+  <mat-card-actions class="py-0">
+      <div class="container">
+        <div class="row px-4 py-0">
+          <mat-tab-group  mat-stretch-tabs dynamicHeight>
+            <mat-tab label="Anamnéza">
+              <app-anamnesis [editMode]="this.editMode"></app-anamnesis>
+            </mat-tab>
+            <mat-tab label="Príjem">
+              <app-acceptance [editMode]="this.editMode"></app-acceptance>
+            </mat-tab>
+            <mat-tab label="Prepustenie">
+              <ng-template matTabContent>
+                <app-dismissal [editMode]="this.editMode"></app-dismissal>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+  </mat-card-actions>
+
+</mat-card>

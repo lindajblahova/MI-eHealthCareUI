@@ -1,0 +1,26 @@
+<div class="page">
+  <div class="login d-flex justify-content-center align-items-center vh-100">
+    <mat-card class="card">
+      <mat-card-subtitle class="logo-name mt-4"><b><i class="fa fa-hospital-o"></i> eHospitalizácia</b></mat-card-subtitle>
+      <mat-card-actions>
+        <form>
+          <div class="container">
+            <div class="row px-4">
+              <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Číslo používateľa</mat-label>
+                <input matInput type="number" id="number">
+              </mat-form-field>
+              <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Heslo</mat-label>
+                <input matInput type="password" id="password">
+              </mat-form-field>
+            </div>
+          </div>
+          <span class="d-flex justify-content-center mb-3">
+            <button mat-stroked-button color="primary" (click)="this.navigateTo()">Prihlásiť</button>
+          </span>
+        </form>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

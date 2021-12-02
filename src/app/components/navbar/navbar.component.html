@@ -1,0 +1,35 @@
+<div class="side-nav">
+  <nav>
+    <div class="logo-detail my-4">
+      <span class="logo-name mt-4"><b><i class="fa fa-hospital-o"></i> eHospitalizácia</b></span>
+    </div>
+    <hr>
+
+    <div class="container" style="padding: 1.5rem 1.5rem 0 1.5rem; ">
+      <ul class="m-0 p-0">
+        <span *ngFor="let menuItem of config?.items">
+          <li class="side-nav-item">
+            <a class="p-3" href=""
+               [ngClass]="menuItem.active ? 'active' : ''"
+               [routerLink]="menuItem.path"
+               (click)="$event.preventDefault(); setActiveItem(menuItem); setOpenItem(menuItem);">
+              <i class="icon" [ngClass]='[menuItem.icon, menuItem.active ? "active" : ""]'></i>
+              <span class="title">{{menuItem.title}}</span>
+            </a>
+          </li>
+          <div *ngIf="menuItem?.open == true">
+            <li *ngFor="let subItem of menuItem.subItems" class="side-nav-subitem">
+              <a class="p-3" href=""
+                 [ngClass]="subItem.active ? 'active' : ''"
+               [routerLink]="menuItem.path+subItem.path"
+               (click)="$event.preventDefault();  setActiveItem(subItem);">
+              <i class="icon" [ngClass]='[subItem.icon, subItem.active ? "active" : ""]'></i>
+              <span class="title">{{subItem.title}}</span>
+              </a>
+          </li>
+         </div>
+        </span>
+      </ul>
+    </div>
+  </nav>
+</div>
