@@ -1,0 +1,78 @@
+.content {
+  padding: 16px;
+}
+
+.content > mat-card {
+  margin-bottom: 16px;
+}
+
+mat-card {
+  min-height: 100%;
+}
+
+.column-label {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+h1, h2 {
+  font-weight: lighter;
+}
+
+mat-panel-title {
+  font-size: larger;
+  font-weight: lighter;
+}
+
+.h1 {
+  font-size: larger;
+}
+
+mat-form-field {
+  padding: 0rem 0.5rem;
+  width: 100%;
+}
+
+mat-card {
+  overflow-x: auto;
+  display: block;
+}
+
+
+.mat-flat-button.mat-detail {
+  background-color: rgba(112, 79, 171, 0.72);
+  color: white;
+}
+
+.card-clicked {
+  background-color: #3f1e77;
+  h2 {
+    color: white;
+  }
+}
+
+.card-not-clicked {
+  background-color: rgba(125, 127, 147, 0.34);
+  h2 {
+    color: #3f1e77;
+  }
+}
+
+.button {
+  width: 100%;
+  padding: 0.5rem 0rem;
+}
+
+.btn-not-clicked {
+  background-color: rgb(255, 255, 255);
+  color: #3f1e77;
+}
+
+.btn-clicked {
+  background-color: #3f1e77;
+  color: white;
+}
+
+.mat-row:hover {
+  background-color: rgba(125, 127, 147, 0.18);;
+}

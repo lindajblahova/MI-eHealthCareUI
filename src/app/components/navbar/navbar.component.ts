@@ -59,7 +59,7 @@ export class NavbarComponent implements OnInit {
         {
           title: 'Izby',
           icon: 'fa fa-bed',
-          path: 'ambulance',
+          path: '/rooms',
         },
         {
           title: 'Odhlásiť sa',

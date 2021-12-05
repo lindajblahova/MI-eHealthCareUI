@@ -22,10 +22,13 @@ export class PatientsComponent implements OnInit {
             firstname: 'Linda',
             lastname: 'Blahova',
             sex: 1,
+            maritalStatus: 'slobodna',
             dateOfBirth: '12.10.1998',
+            dateOfDeath: '',
             identificationCard: 'AB123456',
             street: 'Zapad 1141',
             city: 'Trstena',
+            zipcode: '02801',
             state: 'Slovensko',
             nationality: 'slovenska',
             email: 'lb@gmail.com',
@@ -36,7 +39,10 @@ export class PatientsComponent implements OnInit {
             contactTelephone: '0944 666 555'
           },
         insuranceCompany: 2250,
-        insuranceNumber: 2250456984
+        insuranceNumber: 2250456984,
+        bloodType: '0+',
+        height: '161',
+        weight: '51'
       },
       {
         id: '965473',
@@ -46,10 +52,13 @@ export class PatientsComponent implements OnInit {
             firstname: 'Maria',
             lastname: 'Blahova',
             sex: 1,
+            maritalStatus: 'vydata',
             dateOfBirth: '2.5.1969',
+            dateOfDeath: '',
             identificationCard: 'XY654322',
             street: 'Zapad 1141',
             city: 'Trstena',
+            zipcode: '02801',
             state: 'Slovensko',
             nationality: 'slovenska',
             email: 'mb@gmail.com',
@@ -60,7 +69,10 @@ export class PatientsComponent implements OnInit {
             contactTelephone: '0944 444 444'
           },
         insuranceCompany: 2250,
-        insuranceNumber: 2250852147
+        insuranceNumber: 2250852147,
+        bloodType: 'A-',
+        height: '170',
+        weight: '48'
       },
     ];
 

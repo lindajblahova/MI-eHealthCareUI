@@ -36,11 +36,15 @@ export class InfoRowComponent implements OnInit {
           identificationNumber: '996655/4433',
           firstname: 'Linda',
           lastname: 'Blahova',
+          birthLastname: 'Blahova',
           sex: 1,
+          maritalStatus: 'slobodna',
           dateOfBirth: '12.10.1998',
+          dateOfDeath: '',
           identificationCard: 'AB123456',
           street: 'Zapad 1141',
           city: 'Trstena',
+          zipcode: '02801',
           state: 'Slovensko',
           nationality: 'slovenska',
           email: 'lb@gmail.com',
@@ -51,7 +55,10 @@ export class InfoRowComponent implements OnInit {
           contactTelephone: '0944 666 555'
         },
       insuranceCompany: 2250,
-      insuranceNumber: 2250456984
+      insuranceNumber: 2250456984,
+      bloodType: '0+',
+      height: '161',
+      weight: '51'
     };
 
   public config?: FormConfig;

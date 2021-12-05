@@ -1,23 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import {IDoctor} from "../../objects/interfaces/IDoctor";
-import {FormConfig} from "../../objects/form.config";
-import {ListConfig} from "../../objects/list.config";
+import {Component, OnInit} from '@angular/core';
+import {Patient} from "../../objects/interfaces/IPatient";
 
 @Component({
-  selector: 'app-doctors',
-  templateUrl: './doctors.component.html',
-  styleUrls: ['./doctors.component.scss']
+  selector: 'app-patient-detail',
+  templateUrl: './patient-detail.component.html',
+  styleUrls: ['./patient-detail.component.scss']
 })
-export class DoctorsComponent implements OnInit {
+export class PatientDetailComponent implements OnInit {
 
-  doctors: IDoctor[] = [
+  public patient: Patient =
     {
-      id: '123',
+      id: '61238',
       person:
         {
           identificationNumber: '996655/4433',
           firstname: 'Linda',
           lastname: 'Blahova',
+          birthLastname: 'Blahova',
           sex: 1,
           maritalStatus: 'slobodna',
           dateOfBirth: '12.10.1998',
@@ -35,15 +34,17 @@ export class DoctorsComponent implements OnInit {
           contactEmail: 'mb@gmail.com',
           contactTelephone: '0944 666 555'
         },
-      specialization: 123,
-      title: 'MUDr.'
-    }
-  ];
+      insuranceCompany: 2250,
+      insuranceNumber: 2250456984,
+      bloodType: 'O+',
+      height: '161',
+      weight: '51'
+    };
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
-
 
 }

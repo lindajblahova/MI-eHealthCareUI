@@ -8,6 +8,8 @@ import {NewHospitalizationComponent} from "./components/new-hospitalization/new-
 import {SignInComponent} from "./components/sign-in/sign-in.component";
 import {HospitalizationsComponent} from "./components/hospitalizations/hospitalizations.component";
 import {HospitalizationDetailComponent} from "./components/hospitalization-detail/hospitalization-detail.component";
+import {PatientDetailComponent} from "./components/patient-detail/patient-detail.component";
+import {RoomsComponent} from "./components/rooms/rooms.component";
 
 const routes: Routes = [
   {path: 'doctors', component: DoctorsComponent},
@@ -17,9 +19,11 @@ const routes: Routes = [
   {path: 'my-hospitalizations/all', component: HospitalizationsComponent},
   {path: 'my-hospitalizations/ongoing', component: HospitalizationsComponent},
   {path: 'my-hospitalizations/closed', component: HospitalizationsComponent},
+  {path: 'patient', component: PatientDetailComponent},
   {path: 'patients/add', component: NewPatientComponent},
   {path: 'patients', component: PatientsComponent},
   {path: 'profile', component: ProfileComponent},
+  {path: 'rooms', component: RoomsComponent},
   {path: 'sign-in', component: SignInComponent},
   {path: '', redirectTo: 'patients', pathMatch: 'full'}
 ];

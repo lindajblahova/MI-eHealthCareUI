@@ -5,6 +5,9 @@ export interface IPatient {
   person: Person;
   insuranceCompany: number;
   insuranceNumber: number;
+  bloodType: string;
+  height: string;
+  weight: string;
 }
 
 export class Patient implements IPatient{
@@ -12,7 +15,9 @@ export class Patient implements IPatient{
   person: Person | null = null;
   insuranceCompany: number| null = null;
   insuranceNumber: number | null = null;
-
+  bloodType: string = '';
+  height: string = '';
+  weight: string = '';
 
   constructor(person: Person | null) {
     this.person = person;

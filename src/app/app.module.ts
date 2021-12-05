@@ -40,7 +40,11 @@ import { DismissalComponent } from './components/hospitalization-detail/dismissa
 import { FormComponentComponent } from './components/form-component/form-component.component';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { MatTableFilterModule } from 'mat-table-filter';
-
+import { PatientDetailComponent } from './components/patient-detail/patient-detail.component';
+import {MatIconModule} from '@angular/material/icon';
+import { RoomsComponent } from './components/rooms/rooms.component';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { BottomSheetComponent } from './components/rooms/bottom-sheet/bottom-sheet.component';
 
 const MY_FORMATS = {
   parse: {
@@ -70,7 +74,10 @@ const MY_FORMATS = {
     AnamnesisComponent,
     InfoRowComponent,
     DismissalComponent,
-    FormComponentComponent
+    FormComponentComponent,
+    PatientDetailComponent,
+    RoomsComponent,
+    BottomSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +109,9 @@ const MY_FORMATS = {
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     ScrollingModule,
-    MatTableFilterModule
+    MatTableFilterModule,
+    MatIconModule,
+    MatBottomSheetModule
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
