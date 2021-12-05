@@ -1,0 +1,26 @@
+a {
+  text-decoration: none;
+  font-weight: lighter;
+  color: black;
+}
+
+::ng-deep .readonly {
+  .mat-form-field-wrapper {
+    .mat-form-field-flex {
+      .mat-form-field-outline {
+        .mat-form-field-outline-start {
+          background-color: rgba(176, 176, 176, 0.09) !important;
+        }
+
+        .mat-form-field-outline-gap {
+          background-color: rgba(176, 176, 176, 0.09) !important;
+        }
+
+        .mat-form-field-outline-end {
+          background-color: rgba(176, 176, 176, 0.09) !important;
+        }
+      }
+    }
+  }
+
+}

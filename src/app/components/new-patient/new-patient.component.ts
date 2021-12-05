@@ -86,6 +86,14 @@ export class NewPatientComponent implements OnInit {
               class: '',
               value: '',
               required: true
+            },
+            {
+              id: 'statnaPrislusnost',
+              label: 'Štátna príslušnosť',
+              type: 'text',
+              class: '',
+              value: '',
+              required: true
             }
           ]
         },
@@ -115,6 +123,22 @@ export class NewPatientComponent implements OnInit {
               class: '',
               value: '',
               required: true
+            },
+            {
+              id: 'vyska',
+              label: 'Výška [cm]',
+              type: 'number',
+              class: '',
+              value: '',
+              required: true
+            },
+            {
+              id: 'hmotnost',
+              label: 'Hmotnosť [kg]',
+              type: 'number',
+              class: '',
+              value: '',
+              required: true
             }
           ]
         },
@@ -138,6 +162,14 @@ export class NewPatientComponent implements OnInit {
               required: true
             },
             {
+              id: 'psc',
+              label: 'PSČ',
+              type: 'number',
+              class: '',
+              value: '',
+              required: true
+            },
+            {
               id: 'stat',
               label: 'Štát',
               type: 'text',
@@ -145,14 +177,7 @@ export class NewPatientComponent implements OnInit {
               value: '',
               required: true
             },
-            {
-              id: 'statnaPrislusnost',
-              label: 'Štátna príslušnosť',
-              type: 'text',
-              class: '',
-              value: '',
-              required: true
-            }
+
           ]
         },
         {

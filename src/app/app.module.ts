@@ -38,6 +38,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { DismissalComponent } from './components/hospitalization-detail/dismissal/dismissal.component';
 import { FormComponentComponent } from './components/form-component/form-component.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import { MatTableFilterModule } from 'mat-table-filter';
 
 
 const MY_FORMATS = {
@@ -98,7 +100,9 @@ const MY_FORMATS = {
     MatTabsModule,
     FlexLayoutModule,
     NgxMatDatetimePickerModule,
-    NgxMatTimepickerModule
+    NgxMatTimepickerModule,
+    ScrollingModule,
+    MatTableFilterModule
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },

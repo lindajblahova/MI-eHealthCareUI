@@ -1,0 +1,67 @@
+h1, h2 {
+  font-weight: lighter;
+}
+
+
+.mat-table {
+  overflow-x: scroll;
+  overflow-scrolling: auto;
+}
+
+.mat-row,
+.mat-header-row {
+  display: table-row;
+}
+
+.mat-cell,
+.mat-header-cell {
+  word-wrap: initial;
+  display: table-cell;
+  padding: 0px 10px;
+  line-break: unset;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+
+}
+
+
+mat-panel-title {
+  font-size: larger;
+  font-weight: lighter;
+}
+
+.mat-flat-button.mat-detail {
+  background-color: rgba(112, 79, 171, 0.72);
+  color: white;
+}
+
+.card-clicked {
+  background-color: #3f1e77;
+  h2 {
+    color: white;
+  }
+}
+
+.card-not-clicked {
+  background-color: rgba(125, 127, 147, 0.34);
+  h2 {
+    color: #3f1e77;
+  }
+}
+
+.button {
+  width: 100%;
+  padding: 0.5rem 0rem;
+}
+
+.btn-not-clicked {
+  background-color: rgb(255, 255, 255);
+  color: #3f1e77;
+}
+
+.btn-clicked {
+  background-color: #3f1e77;
+  color: white;
+}

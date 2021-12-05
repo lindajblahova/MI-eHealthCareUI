@@ -10,11 +10,13 @@ export class DismissalComponent implements OnInit {
 
   @Input() editMode: boolean = false;
   public config?: FormConfig;
+  public configTextAreas?: FormConfig;
 
   constructor() { }
 
   ngOnInit(): void {
     this.setConfig();
+    this.setConfigTextAreas();
   }
 
   public setConfig() {
@@ -25,68 +27,120 @@ export class DismissalComponent implements OnInit {
           name: "",
           items: [
             {
-              id: 'sposobPrijatia',
-              label: 'Spôsob prijatia',
+              id: 'ukoncenieHospitalizacie',
+              label: 'Ukončenie hospitalizácie',
               type: 'text',
               class: '',
               value: '',
               required: true
             },
             {
-              id: 'typHospitalizacie',
-              label: 'Typ hospitalizácie',
+              id: 'dovodPrepustenia',
+              label: 'Dôvod prepustenia',
               type: 'text',
               class: '',
               value: '',
               required: true
             },
             {
-              id: 'prijimajuciLekar',
-              label: 'Prijímajúci lekár',
+              id: 'prepustajuciLekar',
+              label: 'Prepúšťajúci lekár',
               type: 'text',
               class: '',
               value: '',
               required: true
             },
             {
-              id: 'osetrujuciLekar',
-              label: 'Ošetrujúci lekár',
+              id: 'druhLiecby',
+              label: 'Druh vykonanej liečby',
               type: 'text',
               class: '',
               value: '',
               required: true
             },
             {
-              id: 'odporucanePrijatie',
-              label: 'Odporúčané prijatie',
+              id: 'pocetDniNaPriepustke',
+              label: 'Počet dní na priepustke',
+              type: 'text',
+              class: '',
+              value: '',
+              required: true
+            },
+            {
+              id: 'pocetDniNaJIS',
+              label: 'Počet dní na JIS',
+              type: 'number',
+              class: '',
+              value: '',
+              required: true
+            },
+            {
+              id: 'pocetOperacnychVykonov',
+              label: 'Počet operačných výkonov',
+              type: 'number',
+              class: '',
+              value: '',
+              required: true
+            },
+            {
+              id: 'kodOperacnehoVykonu',
+              label: 'Kód operačného výkonu',
+              type: 'text',
+              class: '',
+              value: '',
+              required: false
+            },
+            {
+              id: 'odovzdanyDoStarostlivosti',
+              label: 'Odovzdaný do starostlivosti',
+              type: 'text',
+              class: '',
+              value: '',
+              required: false
+            },
+            {
+              id: 'ziskanaKomplikaciaPriPrepusteni',
+              label: 'Získaná komplikácia pri prepustení',
+              type: 'text',
+              class: '',
+              value: '',
+              required: false
+            },
+            {
+              id: 'priamaPlatba',
+              label: 'Priama platba',
+              type: 'number',
+              class: '',
+              value: '€',
+              required: false
+            }
+          ]
+        },
+        {
+          name: "",
+          items: [
+            {
+              id: 'presunPacienta',
+              label: 'Presun pacienta',
               type: 'checkbox',
               class: '',
               value: '',
               required: true,
-              willDisable: ['odporucilLekar', 'odporucanaDiagnoza','datumOdporucania']
+              willDisable: ['miestoPresunu', 'dovodPresunu']
             },
             {
-              id: 'odporucilLekar',
-              label: 'Odporučil lekár',
-              type: 'text',
+              id: 'miestoPresunu',
+              label: 'Miesto presunu',
+              type: 'select',
               class: '',
               value: '',
               required: true,
               disabled: true
             },
             {
-              id: 'odporucanaDiagnoza',
-              label: 'Odporúčaná diagnóza',
+              id: 'dovodPresunu',
+              label: 'Dôvod presunu',
               type: 'text',
-              class: '',
-              value: '',
-              required: true,
-              disabled: true
-            },
-            {
-              id: 'datumOdporucania',
-              label: 'Dátum odporúčania',
-              type: 'datepicker',
               class: '',
               value: '',
               required: true,
@@ -98,60 +152,40 @@ export class DismissalComponent implements OnInit {
           name: "",
           items: [
             {
-              id: 'zakladnaDiagnoza',
-              label: 'Základná diagnóza',
-              type: 'number',
+              id: 'umrtiePacienta',
+              label: 'Úmrtie pacienta',
+              type: 'checkbox',
               class: '',
               value: '',
-              required: true
+              required: true,
+              willDisable: ['zakladnaPricinaSmrti', 'datumUmrtia','casUmrtia']
             },
             {
-              id: 'prijimovaDiagnoza',
-              label: 'Prijímová diagnóza',
-              type: 'number',
-              class: '',
-              value: '',
-              required: true
-            },
-            {
-              id: 'stavPacienta',
-              label: 'Stav Pacienta',
-              type: 'number',
-              class: '',
-              value: '',
-              required: true
-            },
-            {
-              id: 'opakovanaHospitalizacia',
-              label: 'Opakovaná hospitalizácia',
+              id: 'zakladnaPricinaSmrti',
+              label: 'Základná príčina smrti',
               type: 'text',
               class: '',
               value: '',
-              required: true
+              required: true,
+              disabled: true
             },
             {
-              id: 'planovanyVykon',
-              label: 'Plánovaný výkon',
-              type: 'text',
+              id: 'datumUmrtia',
+              label: 'Dátum úmrtia',
+              type: 'datepicker',
               class: '',
               value: '',
-              required: true
+              required: true,
+              disabled: true
             },
             {
-              id: 'typVykonu',
-              label: 'Typ výkonu',
-              type: 'text',
+              id: 'casUmrtia',
+              label: 'Čas Úmrtia',
+              type: 'timepicker',
               class: '',
               value: '',
-              required: true
-            },
-            {
-              id: 'stavPoistenia',
-              label: 'Stav Poistenia',
-              type: 'number',
-              class: '',
-              value: '',
-              required: true
+              required: true,
+              disabled: true
             }
           ]
         }
@@ -159,6 +193,68 @@ export class DismissalComponent implements OnInit {
     }
 
     this.config = formCnfg;
+  }
+
+  public setConfigTextAreas() {
+
+    const formCnfg: FormConfig = {
+      sections: [
+        {
+          name: "",
+          items: [
+            {
+              id: 'laboratorneVysledky',
+              label: 'Laboratórne výsledky',
+              type: 'textarea',
+              class: '',
+              value: '',
+              required: true
+            },
+            {
+              id: 'vysetrenia',
+              label: 'Vyšetrenia',
+              type: 'textarea',
+              class: '',
+              value: '',
+              required: true
+            },
+            {
+              id: 'liecbaPocasHospitalizacie',
+              label: 'Liečba počas hospitalizácie',
+              type: 'textarea',
+              class: '',
+              value: '',
+              required: true
+            },
+            {
+              id: 'priebehHospitalizacie',
+              label: 'Priebeh Hospitalizácie',
+              type: 'textarea',
+              class: '',
+              value: '',
+              required: true,
+            },
+            {
+              id: 'diagnostickyZaver',
+              label: 'Diagnostický záver',
+              type: 'textarea',
+              class: '',
+              value: '',
+              required: true,
+            },
+            {
+              id: 'odporucanie',
+              label: 'Odporúčanie',
+              type: 'textarea',
+              class: '',
+              value: '',
+              required: true,
+            }
+          ]
+        }
+      ]
+    }
+    this.configTextAreas = formCnfg;
   }
 
   changeDisabled(item: FormItemConfig)

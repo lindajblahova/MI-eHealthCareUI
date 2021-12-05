@@ -21,6 +21,13 @@
           </div>
         </ng-container>
       </ng-container>
+
+      <ng-container *ngFor="let section of configTextAreas?.sections">
+        <ng-container *ngFor="let item of section.items">
+          <ng-container *ngIf="item.type == 'textarea'" [ngTemplateOutlet]="textarea"
+                        [ngTemplateOutletContext]="{item:item}"></ng-container>
+        </ng-container>
+      </ng-container>
     </div>
   </div>
 </form>
@@ -38,8 +45,8 @@
     <textarea matInput type="text" [(ngModel)]="item.value" [readonly]="!this.editMode"
               cdkTextareaAutosize
               #autosize="cdkTextareaAutosize"
-              cdkAutosizeMinRows="1"
-              cdkAutosizeMaxRows="200"></textarea>
+              cdkAutosizeMinRows="3"
+              cdkAutosizeMaxRows="15"></textarea>
   </mat-form-field>
 </ng-template>
 
@@ -75,9 +82,7 @@
   <mat-form-field appearance="outline" floatLabel="always">
     <mat-label>{{item.label}}</mat-label>
     <mat-select [(ngModel)]="item.value" [disabled]="!this.editMode">
-      <mat-option value="one">VSZP</mat-option>
-      <mat-option value="two">UNION</mat-option>
-      <mat-option value="three">DOVERA</mat-option>
+      <mat-option value="one"></mat-option>
     </mat-select>
   </mat-form-field>
 </ng-template>

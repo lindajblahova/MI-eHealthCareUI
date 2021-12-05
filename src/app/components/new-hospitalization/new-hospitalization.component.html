@@ -28,8 +28,8 @@
                 <ng-container *ngIf="item.type == 'autocompleteSelect'" [ngTemplateOutlet]="autocompleteSelect"
                               [ngTemplateOutletContext]="{item:item}"></ng-container>
                 <ng-container *ngIf="item.type == 'datepicker'" [ngTemplateOutlet]="datepicker"
-                              [ngTemplateOutletContext]="{item:item}">
-                </ng-container> <ng-container *ngIf="item.type == 'timepicker'" [ngTemplateOutlet]="timepicker"
+                              [ngTemplateOutletContext]="{item:item}"></ng-container>
+                <ng-container *ngIf="item.type == 'timepicker'" [ngTemplateOutlet]="timepicker"
                               [ngTemplateOutletContext]="{item:item}"></ng-container>
                 <ng-container *ngIf="item.type == 'autocomplete'" [ngTemplateOutlet]="autocomplete"
                               [ngTemplateOutletContext]="{item:item}"></ng-container>
@@ -90,9 +90,7 @@
   <mat-form-field appearance="outline" floatLabel="always">
     <mat-label>{{item.label}}</mat-label>
     <mat-select  [(ngModel)]="item.value">
-      <mat-option value="one">VSZP</mat-option>
-      <mat-option value="two">UNION</mat-option>
-      <mat-option value="three">DOVERA</mat-option>
+      <mat-option value="one"> </mat-option>
     </mat-select>
   </mat-form-field>
 </ng-template>

@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
           path: '/profile'
         },
         {
-          title: 'Zamestnanci',
+          title: 'Lekári',
           icon: 'fa fa-user-md ',
           path: '/doctors',
         },
@@ -53,21 +53,6 @@ export class NavbarComponent implements OnInit {
               title: 'Nová hospitalizácia',
               icon: 'fa fa-plus',
               path: '/add'
-            },
-            {
-              title: 'Aktuálne',
-              icon: 'fa fa-spinner',
-              path: '/ongoing'
-            },
-            {
-              title: 'Ukončené',
-              icon: 'fa fa-check-circle-o',
-              path: '/closed'
-            },
-            {
-              title: 'Všetky',
-              icon: 'fa fa-globe ',
-              path: '/all'
             }
           ]
         },

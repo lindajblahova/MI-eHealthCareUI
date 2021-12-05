@@ -9,7 +9,7 @@
          </div>
        </mat-card-title>
        <form>
-         <div class="container" style="font-size: 12px">
+         <div class="container">
          <div class="row px-4">
            <ng-container *ngFor="let section of config?.sections">
              <h2 class="h2 mb-0">{{section.name}}</h2>
@@ -51,9 +51,7 @@
    <mat-form-field appearance="outline" floatLabel="always">
      <mat-label>{{item.label}}</mat-label>
      <mat-select  [(ngModel)]="item.value">
-       <mat-option value="one">VSZP</mat-option>
-       <mat-option value="two">UNION</mat-option>
-       <mat-option value="three">DOVERA</mat-option>
+       <mat-option value="one"> </mat-option>
      </mat-select>
    </mat-form-field>
  </ng-template>

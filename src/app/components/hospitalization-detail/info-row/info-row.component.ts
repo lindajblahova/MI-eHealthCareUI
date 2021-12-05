@@ -1,6 +1,21 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IPatient} from "../../../objects/interfaces/IPatient";
 import {IPerson} from "../../../objects/interfaces/IPerson";
+import {MatTableDataSource} from "@angular/material/table";
+import {FormConfig} from "../../../objects/form.config";
+
+export interface PeriodicElement {
+  diagnoza: string;
+  lokalizacia: string;
+  popis: string;
+  zavaznost: string;
+}
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  {diagnoza: 'I259', lokalizacia: '-', popis: 'Chronická ischemická choroba srdca', zavaznost: '1 - Mierna'},
+  {diagnoza: 'J849', lokalizacia: '-', popis: 'Choroba interstícia pľúc', zavaznost: '0 - Nízka'},
+];
+
 
 @Component({
   selector: 'app-info-row',
@@ -10,6 +25,8 @@ import {IPerson} from "../../../objects/interfaces/IPerson";
 export class InfoRowComponent implements OnInit {
 
   @Input() editMode: boolean = false;
+  displayedColumns: string[] = ['diagnoza', 'lokalizacia', 'popis', 'zavaznost'];
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   public patient: IPatient =
     {
@@ -37,9 +54,58 @@ export class InfoRowComponent implements OnInit {
       insuranceNumber: 2250456984
     };
 
+  public config?: FormConfig;
   constructor() { }
 
   ngOnInit(): void {
+    this.setConfig();
+
+  }
+
+  public setConfig() {
+    const formCnfg: FormConfig = {
+      sections: [
+        {
+          name: "",
+          items: [
+            {
+              id: 'diagnoza',
+              label: 'Diagnóza',
+              type: 'text',
+              class: '',
+              value: '',
+              required: false
+            },
+            {
+              id: 'lokalizacia',
+              label: 'Lokalizácia',
+              type: 'text',
+              class: '',
+              value: '',
+              required: false
+            },
+            {
+              id: 'popis',
+              label: 'Popis',
+              type: 'text',
+              class: '',
+              value: '',
+              required: false
+            },
+            {
+              id: 'zavaznost',
+              label: 'Závažnosť',
+              type: 'text',
+              class: '',
+              value: '',
+              required: false
+            }
+          ]
+        }
+      ]
+    }
+
+    this.config = formCnfg;
   }
 
 }
