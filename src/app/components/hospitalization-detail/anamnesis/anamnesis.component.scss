@@ -9,15 +9,18 @@ mat-form-field {
     .mat-form-field-flex {
       .mat-form-field-outline {
         .mat-form-field-outline-start {
-          background-color: rgba(176, 176, 176, 0.09) !important;
+          color: transparent;
+          background-color: rgba(176, 176, 176, 0.06) !important;
         }
 
         .mat-form-field-outline-gap {
-          background-color: rgba(176, 176, 176, 0.09) !important;
+          color: transparent;
+          background-color: rgba(176, 176, 176, 0.06) !important;
         }
 
         .mat-form-field-outline-end {
-          background-color: rgba(176, 176, 176, 0.09) !important;
+          color: transparent;
+          background-color: rgba(176, 176, 176, 0.06) !important;
         }
       }
     }

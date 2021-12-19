@@ -1,6 +1,6 @@
+import {IHospitalization} from "./IHospitalization";
 
 export interface IRoom {
-  floor: string;
   roomNumber: string;
   capacity: number | null;
   occupancy: number | null;
@@ -9,14 +9,26 @@ export interface IRoom {
 }
 
 export class Room implements IRoom{
-  floor: string = '';
   roomNumber: string = '';
   capacity: number = null;
   occupancy: number = null;
   isFull: boolean | null = null;
   gender:  string = '';
+}
 
-  constructor() {
+export interface IBed {
+  room: IRoom;
+  bedNumber: string;
+  isFree: boolean;
+}
+
+export class Bed implements IBed {
+  room: IRoom;
+  bedNumber: string = '';
+  isFree: boolean = false;
+
+  constructor(room: IRoom) {
+    this.room = room;
   }
 }
 

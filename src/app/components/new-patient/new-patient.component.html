@@ -4,11 +4,11 @@
          <div class="container">
            <div class="row px-4 py-2" >
              <h1 class="col-10 h1">Pridanie pacienta do evidencie</h1>
-             <button mat-raised-button color="primary" class="button col-2" >Uložiť</button>
+             <button mat-raised-button color="primary" class="button col-2" (click)="loadData(); patientForm.reset()" >Uložiť</button>
            </div>
          </div>
        </mat-card-title>
-       <form>
+       <form #patientForm="ngForm">
          <div class="container">
          <div class="row px-4">
            <ng-container *ngFor="let section of config?.sections">
@@ -30,13 +30,12 @@
          </div>
        </form>
      </mat-card-actions>
-
  </mat-card>
 
 <ng-template #text let-item='item'>
-  <mat-form-field appearance="outline" floatLabel="always">
+  <mat-form-field appearance="outline" floatLabel="always" >
     <mat-label>{{item.label}}</mat-label>
-    <input matInput type="text" [(ngModel)]="item.value">
+    <input matInput type="text" [(ngModel)]="item.value" [disabled]="item.disabled">
   </mat-form-field>
 </ng-template>
 
@@ -50,8 +49,8 @@
  <ng-template #select let-item='item'>
    <mat-form-field appearance="outline" floatLabel="always">
      <mat-label>{{item.label}}</mat-label>
-     <mat-select  [(ngModel)]="item.value">
-       <mat-option value="one"> </mat-option>
+     <mat-select  [(ngModel)]="item.value" (selectionChange)="this.changeDisabled(item)">
+       <mat-option *ngFor="let option of item.options" [value]="option">{{option}}</mat-option>
      </mat-select>
    </mat-form-field>
  </ng-template>

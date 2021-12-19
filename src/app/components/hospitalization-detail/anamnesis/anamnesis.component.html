@@ -1,11 +1,11 @@
-<form>
+<form #myForm="ngForm">
   <div class="container">
     <div class="row py-4">
       <ng-container *ngFor="let section of config?.sections">
         <ng-container *ngFor="let item of section.items">
             <mat-form-field appearance="outline" floatLabel="always" class="m-0 mt-2" [ngClass]="{'readonly': !this.editMode}">
               <mat-label>{{item.label}}</mat-label>
-              <textarea matInput type="text" [(ngModel)]="item.value" [readonly]="!this.editMode"
+              <textarea matInput type="text" [(ngModel)]="item.value" [name]="item.label" [readonly]="!this.editMode"
                         cdkTextareaAutosize
                         #autosize="cdkTextareaAutosize"
                         cdkAutosizeMinRows="3"

@@ -1,20 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {IPatient} from "../../../objects/interfaces/IPatient";
 import {IPerson} from "../../../objects/interfaces/IPerson";
 import {MatTableDataSource} from "@angular/material/table";
 import {FormConfig} from "../../../objects/form.config";
-
-export interface PeriodicElement {
-  diagnoza: string;
-  lokalizacia: string;
-  popis: string;
-  zavaznost: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {diagnoza: 'I259', lokalizacia: '-', popis: 'Chronická ischemická choroba srdca', zavaznost: '1 - Mierna'},
-  {diagnoza: 'J849', lokalizacia: '-', popis: 'Choroba interstícia pľúc', zavaznost: '0 - Nízka'},
-];
+import {Hospitalization, IHospitalization} from "../../../objects/interfaces/IHospitalization";
+import {DiagnoseRecordService} from "../../../services/diagnose-record.service";
+import {DiagnoseRecord} from "../../../objects/interfaces/IDiagnoseRecord";
+import {Diagnose, IDiagnose} from "../../../objects/interfaces/IDiagnose";
 
 
 @Component({
@@ -22,51 +14,65 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './info-row.component.html',
   styleUrls: ['./info-row.component.scss']
 })
-export class InfoRowComponent implements OnInit {
+export class InfoRowComponent implements OnInit, OnChanges {
 
-  @Input() editMode: boolean = false;
-  displayedColumns: string[] = ['diagnoza', 'lokalizacia', 'popis', 'zavaznost'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  @Input() editMode: boolean;
+  @Input() hospitalization: Hospitalization;
+  displayedColumns: string[] = ['diagnose', 'localization', 'description', 'severity', 'state'];
+  dataSource: MatTableDataSource<any>;
+  newDiagnoseRecord: DiagnoseRecord = new DiagnoseRecord();
+  dateFrom: Date;
+  dateTo: Date;
+  invalidDate;
 
-  public patient: IPatient =
-    {
-      id: '61238',
-      person:
-        {
-          identificationNumber: '996655/4433',
-          firstname: 'Linda',
-          lastname: 'Blahova',
-          birthLastname: 'Blahova',
-          sex: 1,
-          maritalStatus: 'slobodna',
-          dateOfBirth: '12.10.1998',
-          dateOfDeath: '',
-          identificationCard: 'AB123456',
-          street: 'Zapad 1141',
-          city: 'Trstena',
-          zipcode: '02801',
-          state: 'Slovensko',
-          nationality: 'slovenska',
-          email: 'lb@gmail.com',
-          telephoneNumber: '0944 444 666',
-          contactFirstname: 'Maria',
-          contactLastname: 'Blahova',
-          contactEmail: 'mb@gmail.com',
-          contactTelephone: '0944 666 555'
-        },
-      insuranceCompany: 2250,
-      insuranceNumber: 2250456984,
-      bloodType: '0+',
-      height: '161',
-      weight: '51'
-    };
+
+  public patient: IPatient;
+  public patientDiagnoseRecords: DiagnoseRecord[];
 
   public config?: FormConfig;
-  constructor() { }
+
+  constructor(private diagnoseRecordService: DiagnoseRecordService) {
+    this.invalidDate = new Date(0);
+  }
 
   ngOnInit(): void {
-    this.setConfig();
+    this.patient = this.hospitalization.patient;
+    if (this.hospitalization.dateTo !== null && this.hospitalization.dateTo.getTime() == this.invalidDate.getTime())
+    {
+      this.hospitalization.dateTo = null;
+    }
 
+    this.patientDiagnoseRecords = this.diagnoseRecordService.getPatientDiagnoses(this.patient.id);
+    this.dataSource = new MatTableDataSource(this.patientDiagnoseRecords);
+
+    this.newDiagnoseRecord.patient = this.patient;
+    this.newDiagnoseRecord.diagnose = this.hospitalization.diagnose;
+    this.newDiagnoseRecord.hospitalized = true;
+    this.newDiagnoseRecord.hospitalization = this.hospitalization;
+
+    this.setConfig();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (changes['editMode'].currentValue == false && this.config) {
+
+      if (this.hospitalization.dateFrom !== null)
+      {
+        this.hospitalization.dateFrom = new Date(this.hospitalization.dateFrom);
+      }
+
+    if (this.hospitalization.dateTo !== null)
+      {
+        this.hospitalization.dateTo = new Date(this.hospitalization.dateTo);
+      }
+
+      if (this.hospitalization.dateTo === null && this.hospitalization.ongoing === false)
+      {
+        this.hospitalization.dateTo = new Date();
+      }
+
+    }
   }
 
   public setConfig() {
@@ -80,7 +86,7 @@ export class InfoRowComponent implements OnInit {
               label: 'Diagnóza',
               type: 'text',
               class: '',
-              value: '',
+              value: this.newDiagnoseRecord.diagnose.idDiagnose + '' + this.newDiagnoseRecord.diagnose.diagnoseName,
               required: false
             },
             {
@@ -88,7 +94,7 @@ export class InfoRowComponent implements OnInit {
               label: 'Lokalizácia',
               type: 'text',
               class: '',
-              value: '',
+              value: this.newDiagnoseRecord.localization,
               required: false
             },
             {
@@ -96,7 +102,7 @@ export class InfoRowComponent implements OnInit {
               label: 'Popis',
               type: 'text',
               class: '',
-              value: '',
+              value: this.newDiagnoseRecord.description,
               required: false
             },
             {
@@ -104,7 +110,15 @@ export class InfoRowComponent implements OnInit {
               label: 'Závažnosť',
               type: 'text',
               class: '',
-              value: '',
+              value: this.newDiagnoseRecord.severity,
+              required: false
+            },
+            {
+              id: 'stav',
+              label: 'Stav',
+              type: 'text',
+              class: '',
+              value: this.newDiagnoseRecord.state,
               required: false
             }
           ]
@@ -114,5 +128,4 @@ export class InfoRowComponent implements OnInit {
 
     this.config = formCnfg;
   }
-
 }

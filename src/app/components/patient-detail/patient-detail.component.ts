@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Patient} from "../../objects/interfaces/IPatient";
+import {ActivatedRoute} from "@angular/router";
+import {PatientService} from "../../services/patient.service";
+import {SharedService} from "../../services/shared.service";
 
 @Component({
   selector: 'app-patient-detail',
@@ -8,43 +11,18 @@ import {Patient} from "../../objects/interfaces/IPatient";
 })
 export class PatientDetailComponent implements OnInit {
 
-  public patient: Patient =
-    {
-      id: '61238',
-      person:
-        {
-          identificationNumber: '996655/4433',
-          firstname: 'Linda',
-          lastname: 'Blahova',
-          birthLastname: 'Blahova',
-          sex: 1,
-          maritalStatus: 'slobodna',
-          dateOfBirth: '12.10.1998',
-          dateOfDeath: '',
-          identificationCard: 'AB123456',
-          street: 'Zapad 1141',
-          city: 'Trstena',
-          zipcode: '02801',
-          state: 'Slovensko',
-          nationality: 'slovenska',
-          email: 'lb@gmail.com',
-          telephoneNumber: '0944 444 666',
-          contactFirstname: 'Maria',
-          contactLastname: 'Blahova',
-          contactEmail: 'mb@gmail.com',
-          contactTelephone: '0944 666 555'
-        },
-      insuranceCompany: 2250,
-      insuranceNumber: 2250456984,
-      bloodType: 'O+',
-      height: '161',
-      weight: '51'
-    };
+  public patient: Patient;
+  private id: string = this.activatedRoute.snapshot.paramMap.get("id");
 
-  constructor() {
+  constructor(private activatedRoute: ActivatedRoute, private patientService: PatientService, private sharedService: SharedService) {
+    this.id = this.activatedRoute.snapshot.paramMap.get("id");
+
+    this.patient = this.patientService.getPatient(this.id);
+    this.sharedService.loading = false;
   }
 
   ngOnInit(): void {
+
   }
 
 }

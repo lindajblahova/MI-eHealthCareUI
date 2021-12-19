@@ -1,22 +1,80 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormConfig, FormItemConfig} from "../../../objects/form.config";
+import {Hospitalization} from "../../../objects/interfaces/IHospitalization";
+import {AuthService} from "../../../services/auth.service";
+import {RoomService} from "../../../services/room.service";
 
 @Component({
   selector: 'app-dismissal',
   templateUrl: './dismissal.component.html',
   styleUrls: ['./dismissal.component.scss']
 })
-export class DismissalComponent implements OnInit {
+export class DismissalComponent implements OnInit, OnChanges {
 
-  @Input() editMode: boolean = false;
+  @Input() editMode: boolean;
+  @Input() hospitalization: Hospitalization;
   public config?: FormConfig;
   public configTextAreas?: FormConfig;
+  public activeUser;
 
-  constructor() { }
+  constructor(private authService: AuthService, private roomService: RoomService) {
+  }
 
   ngOnInit(): void {
+    this.activeUser = this.authService.getActiveUser();
+
     this.setConfig();
     this.setConfigTextAreas();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+      if (changes['editMode'].currentValue == false  && this.config && this.configTextAreas) {
+
+      var arrayData: any = {};
+      this.config.sections.forEach((section) => {
+        section.items.forEach((item) => {
+          arrayData[item.id] = item.value;
+        });
+      });
+
+      this.configTextAreas.sections.forEach((section) => {
+        section.items.forEach((item) => {
+          arrayData[item.id] = item.value;
+        });
+      });
+
+      if (this.hospitalization.ongoing === false)
+      {
+        this.hospitalization.dismissal.dismissingDoctor = this.activeUser.title + " " + this.activeUser.person.firstname + " "
+          + this.activeUser.person.lastname;
+      }
+
+      this.hospitalization.dismissal.reasonOfDismissal = arrayData['reasonOfDismissal'];
+      this.hospitalization.dismissal.relocation = arrayData['relocation'];
+      this.hospitalization.dismissal.relocationReason = arrayData['relocationReason'];
+      this.hospitalization.dismissal.relocationPlace = arrayData['relocationPlace'];
+      this.hospitalization.dismissal.death = arrayData['death'];
+      this.hospitalization.dismissal.deathReason = arrayData['deathReason'];
+      this.hospitalization.dismissal.timeOfDeath = arrayData['timeOfDeath'];
+      this.hospitalization.dismissal.performedOperation = arrayData['performedOperation'];
+      this.hospitalization.dismissal.directPayment = arrayData['directPayment'];
+      this.hospitalization.dismissal.examinations = arrayData['examinations'];
+      this.hospitalization.dismissal.gainedComplication = arrayData['gainedComplication'];
+      this.hospitalization.dismissal.hospitalizationCourse = arrayData['hospitalizationCourse'];
+      this.hospitalization.dismissal.hospitalizationTreatment = arrayData['hospitalizationTreatment'];
+      this.hospitalization.dismissal.laboratoryResults = arrayData['laboratoryResults'];
+      this.hospitalization.dismissal.numberOfDaysOnICU = arrayData['numberOfDaysOnICU'];
+      this.hospitalization.dismissal.recommendations = arrayData['recommendations'];
+      this.hospitalization.dismissal.treatmentType = arrayData['treatmentType'];
+      this.roomService.removePatientFromBed(this.hospitalization.bed);
+      this.hospitalization.bed = null;
+
+      if (this.hospitalization.dismissal.death === true) {
+        this.hospitalization.dismissal.dateOfDeath = new Date(new Date(arrayData['dateOfDeath']));
+      }
+    }
+    this.ngOnInit();
   }
 
   public setConfig() {
@@ -27,91 +85,59 @@ export class DismissalComponent implements OnInit {
           name: "",
           items: [
             {
-              id: 'ukoncenieHospitalizacie',
-              label: 'Ukončenie hospitalizácie',
-              type: 'text',
-              class: '',
-              value: '',
-              required: true
-            },
-            {
-              id: 'dovodPrepustenia',
+              id: 'reasonOfDismissal',
               label: 'Dôvod prepustenia',
               type: 'text',
               class: '',
-              value: '',
+              value:  this.hospitalization.dismissal.reasonOfDismissal,
               required: true
             },
             {
-              id: 'prepustajuciLekar',
+              id: 'dismissingDoctor',
               label: 'Prepúšťajúci lekár',
               type: 'text',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.dismissingDoctor,
               required: true
             },
             {
-              id: 'druhLiecby',
+              id: 'treatmentType',
               label: 'Druh vykonanej liečby',
               type: 'text',
               class: '',
-              value: '',
+              value:  this.hospitalization.dismissal.treatmentType,
               required: true
             },
             {
-              id: 'pocetDniNaPriepustke',
-              label: 'Počet dní na priepustke',
+              id: 'performedOperation',
+              label: 'Vykonaná operácia',
               type: 'text',
               class: '',
-              value: '',
+              value:  this.hospitalization.dismissal.performedOperation,
               required: true
             },
             {
-              id: 'pocetDniNaJIS',
+              id: 'numberOfDaysOnICU',
               label: 'Počet dní na JIS',
               type: 'number',
               class: '',
-              value: '',
+              value:  this.hospitalization.dismissal.numberOfDaysOnICU,
               required: true
             },
             {
-              id: 'pocetOperacnychVykonov',
-              label: 'Počet operačných výkonov',
-              type: 'number',
-              class: '',
-              value: '',
-              required: true
-            },
-            {
-              id: 'kodOperacnehoVykonu',
-              label: 'Kód operačného výkonu',
-              type: 'text',
-              class: '',
-              value: '',
-              required: false
-            },
-            {
-              id: 'odovzdanyDoStarostlivosti',
-              label: 'Odovzdaný do starostlivosti',
-              type: 'text',
-              class: '',
-              value: '',
-              required: false
-            },
-            {
-              id: 'ziskanaKomplikaciaPriPrepusteni',
+              id: 'gainedComplication',
               label: 'Získaná komplikácia pri prepustení',
               type: 'text',
               class: '',
-              value: '',
+              value:  this.hospitalization.dismissal.gainedComplication,
               required: false
             },
             {
-              id: 'priamaPlatba',
+              id: 'directPayment',
               label: 'Priama platba',
               type: 'number',
               class: '',
-              value: '€',
+              value:   this.hospitalization.dismissal.directPayment ,
               required: false
             }
           ]
@@ -120,29 +146,29 @@ export class DismissalComponent implements OnInit {
           name: "",
           items: [
             {
-              id: 'presunPacienta',
+              id: 'relocation',
               label: 'Presun pacienta',
               type: 'checkbox',
               class: '',
-              value: '',
+              value:  this.hospitalization.dismissal.relocation,
               required: true,
-              willDisable: ['miestoPresunu', 'dovodPresunu']
+              willDisable: ['relocationPlace', 'relocationReason']
             },
             {
-              id: 'miestoPresunu',
+              id: 'relocationPlace',
               label: 'Miesto presunu',
               type: 'select',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.relocationPlace,
               required: true,
               disabled: true
             },
             {
-              id: 'dovodPresunu',
+              id: 'relocationReason',
               label: 'Dôvod presunu',
               type: 'text',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.relocationReason,
               required: true,
               disabled: true
             }
@@ -152,38 +178,38 @@ export class DismissalComponent implements OnInit {
           name: "",
           items: [
             {
-              id: 'umrtiePacienta',
+              id: 'death',
               label: 'Úmrtie pacienta',
               type: 'checkbox',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.death,
               required: true,
-              willDisable: ['zakladnaPricinaSmrti', 'datumUmrtia','casUmrtia']
+              willDisable: ['deathReason', 'dateOfDeath', 'timeOfDeath']
             },
             {
-              id: 'zakladnaPricinaSmrti',
+              id: 'deathReason',
               label: 'Základná príčina smrti',
               type: 'text',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.deathReason,
               required: true,
               disabled: true
             },
             {
-              id: 'datumUmrtia',
+              id: 'dateOfDeath',
               label: 'Dátum úmrtia',
               type: 'datepicker',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.dateOfDeath,
               required: true,
               disabled: true
             },
             {
-              id: 'casUmrtia',
+              id: 'timeOfDeath',
               label: 'Čas Úmrtia',
               type: 'timepicker',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.timeOfDeath,
               required: true,
               disabled: true
             }
@@ -203,43 +229,35 @@ export class DismissalComponent implements OnInit {
           name: "",
           items: [
             {
-              id: 'laboratorneVysledky',
+              id: 'laboratoryResults',
               label: 'Laboratórne výsledky',
               type: 'textarea',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.laboratoryResults,
               required: true
             },
             {
-              id: 'vysetrenia',
+              id: 'examinations',
               label: 'Vyšetrenia',
               type: 'textarea',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.examinations,
               required: true
             },
             {
-              id: 'liecbaPocasHospitalizacie',
+              id: 'hospitalizationTreatment',
               label: 'Liečba počas hospitalizácie',
               type: 'textarea',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.hospitalizationTreatment,
               required: true
             },
             {
-              id: 'priebehHospitalizacie',
+              id: 'hospitalizationCourse',
               label: 'Priebeh Hospitalizácie',
               type: 'textarea',
               class: '',
-              value: '',
-              required: true,
-            },
-            {
-              id: 'diagnostickyZaver',
-              label: 'Diagnostický záver',
-              type: 'textarea',
-              class: '',
-              value: '',
+              value: this.hospitalization.dismissal.hospitalizationCourse,
               required: true,
             },
             {
@@ -247,7 +265,7 @@ export class DismissalComponent implements OnInit {
               label: 'Odporúčanie',
               type: 'textarea',
               class: '',
-              value: '',
+              value: this.hospitalization.dismissal.recommendations,
               required: true,
             }
           ]
@@ -257,16 +275,14 @@ export class DismissalComponent implements OnInit {
     this.configTextAreas = formCnfg;
   }
 
-  changeDisabled(item: FormItemConfig)
-  {
+  changeDisabled(item: FormItemConfig) {
     this.config?.sections.forEach((section) => {
       section.items.forEach((sectionItem) => {
         item.willDisable?.forEach((itemToDisable) => {
-          if (sectionItem.id === itemToDisable)
-          {
+          if (sectionItem.id === itemToDisable) {
             sectionItem.disabled = !sectionItem.disabled;
           }
-        } )
+        })
 
       });
     });

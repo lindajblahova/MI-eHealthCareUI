@@ -13,13 +13,10 @@ import {RoomsComponent} from "./components/rooms/rooms.component";
 
 const routes: Routes = [
   {path: 'doctors', component: DoctorsComponent},
-  {path: 'my-hospitalizations', component: HospitalizationsComponent},
-  {path: 'hospitalization', component: HospitalizationDetailComponent},
-  {path: 'my-hospitalizations/add', component: NewHospitalizationComponent },
-  {path: 'my-hospitalizations/all', component: HospitalizationsComponent},
-  {path: 'my-hospitalizations/ongoing', component: HospitalizationsComponent},
-  {path: 'my-hospitalizations/closed', component: HospitalizationsComponent},
-  {path: 'patient', component: PatientDetailComponent},
+  {path: 'hospitalizations/add', component: NewHospitalizationComponent },
+  {path: 'hospitalizations', component: HospitalizationsComponent},
+  {path: 'hospitalization/:id', component: HospitalizationDetailComponent},
+  {path: 'patient/:id', component: PatientDetailComponent},
   {path: 'patients/add', component: NewPatientComponent},
   {path: 'patients', component: PatientsComponent},
   {path: 'profile', component: ProfileComponent},
@@ -27,7 +24,6 @@ const routes: Routes = [
   {path: 'sign-in', component: SignInComponent},
   {path: '', redirectTo: 'patients', pathMatch: 'full'}
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

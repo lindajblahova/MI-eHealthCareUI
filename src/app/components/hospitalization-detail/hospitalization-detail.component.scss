@@ -15,3 +15,31 @@ h1,h2 {
   background-color: #3f1e77;
   color: white;
 }
+
+.mat-raised-button.mat-end{
+  background-color: rgba(228, 228, 248, 0.96);
+  color: #4c2d7e;
+}
+
+::ng-deep .readonlyRoom {
+  .mat-form-field-wrapper {
+    .mat-form-field-flex {
+      .mat-form-field-outline {
+        .mat-form-field-outline-start {
+          color: transparent;
+          background-color: transparent !important;
+        }
+
+        .mat-form-field-outline-gap {
+          color: transparent;
+          background-color: transparent !important;
+        }
+
+        .mat-form-field-outline-end {
+          color: transparent;
+          background-color: transparent !important;
+        }
+      }
+    }
+  }
+}

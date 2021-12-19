@@ -17,7 +17,8 @@ export interface FormItemConfig {
   value?: any;
   required?: boolean;
   disabled?: boolean;
-  willDisable?: string[]
+  willDisable?: string[];
+  options?: any[];
 }
 
 

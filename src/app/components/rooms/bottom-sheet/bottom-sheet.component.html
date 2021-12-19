@@ -1,3 +1,7 @@
 
-<h2>Aktuálne hospitalizácie na izbe {{data.room.roomNumber}}/{{data.room.floor}}</h2>
+<h2>Aktuálne hospitalizácie na izbe {{data.room.roomNumber}}</h2>
+<div *ngFor="let bed of data.roomBeds;  let i = index" class="d-flex">
+  <h2> Lôžko: {{bed.bedNumber}} - {{bed.isFree ? "voľné" : "obsadené" }}&nbsp;</h2>
+  <h2 *ngIf="!bed.isFree">- Hospitalizácia: {{ hospitalizations[i].idHospitalization}} </h2>
+</div>
 <div></div>

@@ -54,7 +54,7 @@
 
         <ng-container matColumnDef="{{column.id}}" *ngFor="let column of displayedColumns">
           <mat-header-cell *matHeaderCellDef> {{column.label}} </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element[column.id]}} </mat-cell>
+          <mat-cell *matCellDef="let element"> {{findColumnValue(element, column.id)}} </mat-cell>
         </ng-container>
 
         <mat-header-row mat-header-row *matHeaderRowDef="displayedCols"></mat-header-row>

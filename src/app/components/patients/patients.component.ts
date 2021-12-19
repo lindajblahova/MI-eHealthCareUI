@@ -3,7 +3,11 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatTableFilter} from "mat-table-filter";
 import {Patient} from "../../objects/interfaces/IPatient";
 import {FormConfig, FormItemConfig} from "../../objects/form.config";
-import {IPerson, Person} from "../../objects/interfaces/IPerson";
+import { Person} from "../../objects/interfaces/IPerson";
+import {PatientService} from "../../services/patient.service";
+import {MenuItemConfig} from "../../objects/menu.config";
+import {Router} from "@angular/router";
+import {SharedService} from "../../services/shared.service";
 
 @Component({
   selector: 'app-patients',
@@ -12,83 +16,23 @@ import {IPerson, Person} from "../../objects/interfaces/IPerson";
 })
 export class PatientsComponent implements OnInit {
 
-  public patients: Patient[] =
-    [
-      {
-        id: '61238',
-        person:
-          {
-            identificationNumber: '996655/4433',
-            firstname: 'Linda',
-            lastname: 'Blahova',
-            sex: 1,
-            maritalStatus: 'slobodna',
-            dateOfBirth: '12.10.1998',
-            dateOfDeath: '',
-            identificationCard: 'AB123456',
-            street: 'Zapad 1141',
-            city: 'Trstena',
-            zipcode: '02801',
-            state: 'Slovensko',
-            nationality: 'slovenska',
-            email: 'lb@gmail.com',
-            telephoneNumber: '0944 444 666',
-            contactFirstname: 'Maria',
-            contactLastname: 'Blahova',
-            contactEmail: 'mb@gmail.com',
-            contactTelephone: '0944 666 555'
-          },
-        insuranceCompany: 2250,
-        insuranceNumber: 2250456984,
-        bloodType: '0+',
-        height: '161',
-        weight: '51'
-      },
-      {
-        id: '965473',
-        person:
-          {
-            identificationNumber: '556677/4433',
-            firstname: 'Maria',
-            lastname: 'Blahova',
-            sex: 1,
-            maritalStatus: 'vydata',
-            dateOfBirth: '2.5.1969',
-            dateOfDeath: '',
-            identificationCard: 'XY654322',
-            street: 'Zapad 1141',
-            city: 'Trstena',
-            zipcode: '02801',
-            state: 'Slovensko',
-            nationality: 'slovenska',
-            email: 'mb@gmail.com',
-            telephoneNumber: '0944 666 555',
-            contactFirstname: 'Maria',
-            contactLastname: 'Blahova',
-            contactEmail: 'lb@gmail.com',
-            contactTelephone: '0944 444 444'
-          },
-        insuranceCompany: 2250,
-        insuranceNumber: 2250852147,
-        bloodType: 'A-',
-        height: '170',
-        weight: '48'
-      },
-    ];
+  public patients: Patient[];
 
   displayedCols: string[] = ['id', 'firstname', 'lastname', 'identificationNumber', 'detail'];
-  dataSource = new MatTableDataSource(this.patients);
+  dataSource: any;
   person: Person = new Person();
   filterEntity: Patient = new Patient(this.person);
   filterType: MatTableFilter = MatTableFilter.ANYWHERE;
+  clickedPatient: Patient;
   public config?: FormConfig;
 
-  constructor() {
+  constructor(private patientService: PatientService, private router: Router, private sharedService: SharedService) {
   }
 
   ngOnInit(): void {
     this.setConfig();
-
+    this.patients = this.patientService.getAllPatients();
+    this.dataSource = new MatTableDataSource(this.patients);
   }
 
   public setConfig() {
@@ -156,4 +100,9 @@ export class PatientsComponent implements OnInit {
     }
   }
 
+  public async navigateTo(patient: Patient) {
+    this.sharedService.loading = true;
+    await new Promise(f => setTimeout(f, 200));
+    this.router.navigate(['/patient/' + patient.id]);
+  }
 }

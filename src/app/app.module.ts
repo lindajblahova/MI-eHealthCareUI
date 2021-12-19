@@ -19,7 +19,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { NewHospitalizationComponent } from './components/new-hospitalization/new-hospitalization.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MAT_DATE_FORMATS} from '@angular/material/core';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, NativeDateAdapter} from '@angular/material/core';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -45,18 +45,9 @@ import {MatIconModule} from '@angular/material/icon';
 import { RoomsComponent } from './components/rooms/rooms.component';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { BottomSheetComponent } from './components/rooms/bottom-sheet/bottom-sheet.component';
-
-const MY_FORMATS = {
-  parse: {
-    dateInput: ['DD.MM.YYYY', 'DD. MM. YYYY']
-  },
-  display: {
-    dateInput: 'DD. MM. YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL.',
-    monthYearA11yLabel: 'MMM YYYY',
-  },
-};
+import { MatGridListModule } from '@angular/material/grid-list';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -111,10 +102,13 @@ const MY_FORMATS = {
     ScrollingModule,
     MatTableFilterModule,
     MatIconModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatGridListModule,
+    MatProgressSpinnerModule
   ],
   providers: [
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

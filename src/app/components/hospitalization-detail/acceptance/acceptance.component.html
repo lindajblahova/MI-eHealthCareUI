@@ -35,14 +35,14 @@
 <ng-template #text let-item='item'>
   <mat-form-field appearance="outline" floatLabel="always" [ngClass]="{'readonly': !this.editMode}">
     <mat-label>{{item.label}}</mat-label>
-    <input matInput type="text" [disabled]="item.disabled" [(ngModel)]="item.value" [readonly]="!this.editMode">
+    <input matInput type="text" [disabled]="item.disabled" [name]="item.label" [(ngModel)]="item.value" [readonly]="!this.editMode">
   </mat-form-field>
 </ng-template>
 
 <ng-template #textarea let-item='item'>
   <mat-form-field appearance="outline" floatLabel="always" [ngClass]="{'readonly': !this.editMode}">
     <mat-label>{{item.label}}</mat-label>
-    <textarea matInput type="text" [(ngModel)]="item.value" [readonly]="!this.editMode"
+    <textarea matInput type="text" [(ngModel)]="item.value" [name]="item.label" [readonly]="!this.editMode"
               cdkTextareaAutosize
               #autosize="cdkTextareaAutosize"
               cdkAutosizeMinRows="3"
@@ -51,7 +51,7 @@
 </ng-template>
 
 <ng-template #checkbox let-item='item'>
-  <mat-checkbox class="mt-3 mx-4" color="primary" [(ngModel)]="item.value" [disabled]="!this.editMode"
+  <mat-checkbox class="mt-3 mx-4" color="primary" [(ngModel)]="item.value" [name]="item.label" [disabled]="!this.editMode"
                 (change)="changeDisabled(item)">
     <mat-label>{{item.label}}</mat-label>
   </mat-checkbox>
@@ -61,7 +61,7 @@
   <mat-form-field class="example-full-width" appearance="outline" floatLabel="always"
                   [ngClass]="{'readonly': !this.editMode}">
     <mat-label>{{item.label}}</mat-label>
-    <input type="text" [(ngModel)]="item.value" matInput
+    <input type="text" [(ngModel)]="item.value" matInput [name]="item.label"
            [matAutocomplete]="auto" [readonly]="!this.editMode">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       <mat-option value="Linda Blahova">Linda Blahova</mat-option>
@@ -74,14 +74,14 @@
 <ng-template #number let-item='item'>
   <mat-form-field appearance="outline" floatLabel="always" [ngClass]="{'readonly': !this.editMode}">
     <mat-label>{{item.label}}</mat-label>
-    <input matInput type="number" [(ngModel)]="item.value" [readonly]="!this.editMode">
+    <input matInput type="number" [(ngModel)]="item.value" [name]="item.label" [readonly]="!this.editMode">
   </mat-form-field>
 </ng-template>
 
 <ng-template #select let-item='item'>
   <mat-form-field appearance="outline" floatLabel="always">
     <mat-label>{{item.label}}</mat-label>
-    <mat-select [(ngModel)]="item.value" [disabled]="!this.editMode">
+    <mat-select [(ngModel)]="item.value" [disabled]="!this.editMode" [name]="item.label">
       <mat-option value="one"></mat-option>
     </mat-select>
   </mat-form-field>
@@ -90,10 +90,9 @@
 <ng-template #datepicker let-item='item'>
   <mat-form-field appearance="outline" floatLabel="always" [ngClass]="{'readonly': !this.editMode}">
     <mat-label>{{item.label}}</mat-label>
-    <input matInput [disabled]="item.disabled" [(ngModel)]="item.value" [matDatepicker]="picker1"
+    <input matInput [disabled]="item.disabled" [name]="item.label" [(ngModel)]="item.value" [matDatepicker]="picker1"
            [readonly]="!this.editMode">
     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
     <mat-datepicker #picker1></mat-datepicker>
   </mat-form-field>
 </ng-template>
-

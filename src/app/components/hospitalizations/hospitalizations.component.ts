@@ -1,81 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {FormConfig, FormItemConfig} from "../../objects/form.config";
 import {MatTableFilter} from "mat-table-filter";
-import {animate, state, style, transition, trigger} from "@angular/animations";
+import {HospitalizationService} from "../../services/hospitalization.service";
+import {Hospitalization} from "../../objects/interfaces/IHospitalization";
+import {Patient} from "../../objects/interfaces/IPatient";
+import {Person} from "../../objects/interfaces/IPerson";
+import {Anamnesis} from "../../objects/interfaces/IAnamnesis";
+import {Acceptance} from "../../objects/interfaces/IAcceptance";
+import {Diagnose} from "../../objects/interfaces/IDiagnose";
+import {Dismissal} from "../../objects/interfaces/IDismissal";
+import {Router} from "@angular/router";
+import {Bed, Room} from "../../objects/interfaces/IRoom";
+import {SharedService} from "../../services/shared.service";
 
 export interface TableColumn {
   id: string;
   label: string;
 }
-
-export interface PeriodicElement {
-  menoPacienta: string;
-  idPacienta: string;
-  rcPacienta: string;
-  idHospitalizacie: string;
-  kodPoistovne: string;
-  kodDiagnozy: string;
-  datumPrijmu: string;
-  datumPrepustenia: string;
-  prebiehajuca: boolean | null;
-  odporucilLekar: string;
-  prijimajuciLekar: string;
-  osetrujuciLekar: string;
-  prepustajuciLekar: string;
-}
-
-export class IHospitalization implements PeriodicElement {
-  menoPacienta: string = '';
-  idPacienta: string = '';
-  rcPacienta: string = '';
-  idHospitalizacie: string = '';
-  kodPoistovne: string = '';
-  kodDiagnozy: string = '';
-  datumPrijmu: string = '';
-  datumPrepustenia: string = '';
-  prebiehajuca: boolean = null;
-  odporucilLekar: string = '';
-  prijimajuciLekar: string = '';
-  osetrujuciLekar: string = '';
-  prepustajuciLekar: string = '';
-
-  constructor() {
-  }
-}
-
-const ELEMENT_DATA: IHospitalization[] = [
-  {
-    menoPacienta: 'Linda Blahova',
-    idPacienta: '654456',
-    rcPacienta: '998877/6655',
-    idHospitalizacie: '123456',
-    kodPoistovne: '2250',
-    kodDiagnozy: 'I456',
-    datumPrijmu: '02. 12. 2021',
-    datumPrepustenia: '-',
-    prebiehajuca: true,
-    odporucilLekar: '-',
-    prijimajuciLekar: 'MUDr. Peter Dobry',
-    osetrujuciLekar: 'MUDr. Lukas Modry',
-    prepustajuciLekar: 'MUDr. Lukas Modry'
-  },
-  {
-    menoPacienta: 'Albert Sim',
-    idPacienta: '123321',
-    rcPacienta: '661122/3300',
-    idHospitalizacie: '789456',
-    kodPoistovne: '2230',
-    kodDiagnozy: 'I963',
-    datumPrijmu: '18. 11. 2021',
-    datumPrepustenia: '25. 11. 2021',
-    prebiehajuca: false,
-    odporucilLekar: 'MUDr. Jana Mala',
-    prijimajuciLekar: 'MUDr. Marek Gajdos',
-    osetrujuciLekar: 'MUDr. Lukas Modry',
-    prepustajuciLekar: 'MUDr. Marek Gajdos',
-  }
-];
 
 @Component({
   selector: 'app-hospitalizations',
@@ -86,72 +28,101 @@ export class HospitalizationsComponent implements OnInit {
 
   displayedColumns: TableColumn[] = [
     {
-      id: 'menoPacienta',
+      id: 'patient.person.firstname',
       label: 'Meno pacienta'
     },
     {
-      id: 'idPacienta',
+      id: 'patient.person.lastname',
+      label: 'Priezvisko pacienta'
+    },
+    {
+      id: 'patient.id',
       label: 'ID pacienta'
     },
     {
-      id: 'rcPacienta',
-      label: 'RC pacienta'
+      id: 'patient.person.identificationNumber',
+      label: 'RČ pacienta'
     },
     {
-      id: 'idHospitalizacie',
-      label: 'ID Hospitalizacie'
+      id: 'idHospitalization',
+      label: 'ID Hospitalizácie'
     },
     {
-      id: 'kodPoistovne',
-      label: 'Kod Poistovne'
+      id: 'patient.insuranceCompany',
+      label: 'Kód Poisťovne'
     },
     {
-      id: 'kodDiagnozy',
-      label: 'Kod Diagnozy'
+      id: 'diagnose.idDiagnose',
+      label: 'Kód Diagnózy'
     },
     {
-      id: 'datumPrijmu',
+      id: 'dateFrom',
       label: 'Datum Prijmu'
     },
     {
-      id: 'datumPrepustenia',
+      id: 'dateTo',
       label: 'Datum Prepustenia'
     },
     {
-      id: 'odporucilLekar',
-      label: 'Odporucil Lekar'
+      id: 'acceptance.recommendedBy',
+      label: 'Odporučil Lekár'
     },
     {
-      id: 'prijimajuciLekar',
-      label: 'Prijimajuci Lekar'
+      id: 'acceptance.acceptingDoctor',
+      label: 'Prijímajúci Lekár'
     },
     {
-      id: 'osetrujuciLekar',
-      label: 'Osetrujuci Lekar'
+      id: 'acceptance.nursingDoctor',
+      label: 'Ošetrujúci Lekár'
     },
     {
-      id: 'prepustajuciLekar',
-      label: 'Prepustajuci Lekar'
+      id: 'dismissal.dismissingDoctor',
+      label: 'Prepúšťajúci Lekár'
     },
   ];
-  displayedCols: string[] = ['menoPacienta', 'idPacienta', 'rcPacienta', 'idHospitalizacie', 'kodPoistovne',
-    'kodDiagnozy', 'datumPrijmu', 'datumPrepustenia', 'odporucilLekar', 'prijimajuciLekar', 'osetrujuciLekar',
-    'prepustajuciLekar'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-  filterEntity: IHospitalization = new IHospitalization();
+  displayedCols: string[] = ['patient.person.firstname', 'patient.person.lastname', 'patient.id',
+    'patient.person.identificationNumber', 'idHospitalization', 'patient.insuranceCompany',
+    'diagnose.idDiagnose', 'dateFrom', 'dateTo', 'acceptance.recommendedBy', 'acceptance.acceptingDoctor',
+    'acceptance.nursingDoctor',
+    'dismissal.dismissingDoctor'];
+  dataSource;
+  filterRoom: Room = new Room();
+  filterPerson: Person = new Person();
+  filterAnamnesis: Anamnesis = new Anamnesis();
+  filterDiagnose: Diagnose = new Diagnose();
+  filterAcceptance: Acceptance = new Acceptance(this.filterDiagnose);
+  filterDismissal: Dismissal = new Dismissal();
+  filterPatient: Patient = new Patient(this.filterPerson);
+  filterEntity: Hospitalization = new Hospitalization(this.filterPatient, this.filterAnamnesis,
+    this.filterAcceptance, this.filterDismissal, this.filterDiagnose, null);
   filterType: MatTableFilter = MatTableFilter.ANYWHERE;
   expandedElement: any;
   clickedButton: number = 3;
+  hospitalizations: Hospitalization[];
+  invalidDate;
 
   public config?: FormConfig;
 
-  constructor() {
+  constructor(private hospitalizationService: HospitalizationService,
+              private router: Router, private sharedService: SharedService) {
+    this.invalidDate = new Date(0);
+    this.hospitalizations = this.hospitalizationService.getAllHospitalizations();
+    this.hospitalizations.forEach(hospitalization => {
+      if (hospitalization.dateTo !== null && hospitalization.dateTo.getTime() === this.invalidDate.getTime())
+      {
+        hospitalization.dateTo = null;
+      }
+    })
   }
 
   ngOnInit(): void {
-    this.setConfig();
 
+    this.setConfig();
+    this.dataSource = new MatTableDataSource(this.hospitalizations);
+    console.log(this.hospitalizations);
   }
+
+  findColumnValue = (element:unknown, column:string):string => <string>column.split('.').reduce((acc, cur) => acc[cur], element);
 
   public setConfig() {
 
@@ -161,7 +132,7 @@ export class HospitalizationsComponent implements OnInit {
           name: "Filtrovanie hospitalizácií",
           items: [
             {
-              id: 'menoPacienta',
+              id: 'firstname',
               label: 'Meno Pacienta',
               type: 'text',
               class: '',
@@ -169,7 +140,15 @@ export class HospitalizationsComponent implements OnInit {
               required: false
             },
             {
-              id: 'idPacienta',
+              id: 'lastname',
+              label: 'Priezvisko Pacienta',
+              type: 'text',
+              class: '',
+              value: '',
+              required: false
+            },
+            {
+              id: 'idPatient',
               label: 'ID Pacienta',
               type: 'text',
               class: '',
@@ -267,41 +246,44 @@ export class HospitalizationsComponent implements OnInit {
   filterTable(item: FormItemConfig) {
 
     switch (item.id) {
-      case 'menoPacienta':
-        this.filterEntity.menoPacienta = item.value;
+      case 'firstname':
+        this.filterEntity.patient.person.firstname = item.value;
+        break;
+      case 'lastname':
+        this.filterEntity.patient.person.lastname = item.value;
         break;
       case 'idPacienta':
-        this.filterEntity.idPacienta = item.value;
+        this.filterEntity.patient.id = item.value;
         break;
       case 'rcPacienta':
-        this.filterEntity.rcPacienta = item.value;
+        this.filterEntity.patient.person.identificationNumber = item.value;
         break;
       case 'idHospitalizacie':
-        this.filterEntity.idHospitalizacie = item.value;
+        this.filterEntity.idHospitalization = item.value;
         break;
       case 'kodPoistovne':
-        this.filterEntity.kodPoistovne = item.value;
+        this.filterEntity.patient.insuranceCompany = item.value;
         break;
       case 'kodDiagnozy':
-        this.filterEntity.kodDiagnozy = item.value;
+        this.filterEntity.acceptance.diagnose = item.value;
         break;
       case 'datumPrijmu':
-        this.filterEntity.datumPrijmu = item.value;
+        this.filterEntity.dateFrom = item.value;
         break;
       case 'datumPrepustenia':
-        this.filterEntity.datumPrepustenia = item.value;
+        this.filterEntity.dateTo = item.value;
         break;
       case 'odporucilLekar':
-        this.filterEntity.odporucilLekar = item.value;
+        this.filterEntity.acceptance.recommendedBy = item.value;
         break;
       case 'prijimajuciLekar':
-        this.filterEntity.prijimajuciLekar = item.value;
+        this.filterEntity.acceptance.acceptingDoctor = item.value;
         break;
       case 'osetrujuciLekar':
-        this.filterEntity.osetrujuciLekar = item.value;
+        this.filterEntity.acceptance.nursingDoctor = item.value;
         break;
       case 'prepustajuciLekar':
-        this.filterEntity.prepustajuciLekar = item.value;
+        this.filterEntity.dismissal.dismissingDoctor = item.value;
         break;
     }
 
@@ -312,15 +294,20 @@ export class HospitalizationsComponent implements OnInit {
     this.clickedButton = id;
     switch (this.clickedButton) {
       case 1:
-        this.filterEntity.prebiehajuca = true;
+        this.filterEntity.ongoing = true;
         break;
       case 2:
-        this.filterEntity.prebiehajuca = false;
+        this.filterEntity.ongoing = false;
         break;
       case 3:
-        this.filterEntity.prebiehajuca = null;
+        this.filterEntity.ongoing = null;
         break;
     }
   }
 
+  public async navigateTo(id: string, path: string) {
+    this.sharedService.loading = true;
+    await new Promise(f => setTimeout(f, 200));
+    this.router.navigate(['/' + path + id]);
+  }
 }

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuConfig, MenuItemConfig} from "../../objects/menu.config";
 import {Router} from "@angular/router";
+import {DoctorService} from "../../services/doctor.service";
+import {IDoctor} from "../../objects/interfaces/IDoctor";
 
 @Component({
   selector: 'app-navbar',
@@ -10,8 +12,10 @@ import {Router} from "@angular/router";
 export class NavbarComponent implements OnInit {
 
   public config?: MenuConfig;
+  public doctor: IDoctor
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private doctorService: DoctorService) {
+    this.doctor = this.doctorService.getDoctor('25470');
   }
 
   ngOnInit(): void {
@@ -22,16 +26,6 @@ export class NavbarComponent implements OnInit {
 
     const menuCnfg: MenuConfig = {
       items: [
-        {
-          title: 'Profil',
-          icon: 'fa fa-user ',
-          path: '/profile'
-        },
-        {
-          title: 'Lekári',
-          icon: 'fa fa-user-md ',
-          path: '/doctors',
-        },
         {
           title: 'Pacienti',
           icon: 'fa fa-wheelchair',
@@ -47,7 +41,7 @@ export class NavbarComponent implements OnInit {
         {
           title: 'Hospitalizácie',
           icon: 'fa fa-h-square',
-          path: '/my-hospitalizations',
+          path: '/hospitalizations',
           subItems: [
             {
               title: 'Nová hospitalizácia',

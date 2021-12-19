@@ -2,13 +2,13 @@
   <mat-card-actions>
     <mat-card-title>
       <div class="container">
-        <div class="row px-4 py-3" >
+        <div class="row px-4 py-3">
           <h1 class="col-10 h1">Nová hospitalizácia</h1>
-          <button mat-raised-button color="primary" class="button col-2" routerLink="/hospitalization">Uložiť</button>
+          <button mat-raised-button color="primary" class="button col-2" (click)="loadData(); hospitalizationForm.reset()">Uložiť</button>
         </div>
       </div>
     </mat-card-title>
-    <form>
+    <form #hospitalizationForm>
       <div class="container">
         <div class="row px-4">
           <ng-container *ngFor="let section of config?.sections">
@@ -30,8 +30,6 @@
                 <ng-container *ngIf="item.type == 'datepicker'" [ngTemplateOutlet]="datepicker"
                               [ngTemplateOutletContext]="{item:item}"></ng-container>
                 <ng-container *ngIf="item.type == 'timepicker'" [ngTemplateOutlet]="timepicker"
-                              [ngTemplateOutletContext]="{item:item}"></ng-container>
-                <ng-container *ngIf="item.type == 'autocomplete'" [ngTemplateOutlet]="autocomplete"
                               [ngTemplateOutletContext]="{item:item}"></ng-container>
                 <ng-container *ngIf="item.type == 'checkbox'" [ngTemplateOutlet]="checkbox"
                               [ngTemplateOutletContext]="{item:item}"></ng-container>
@@ -63,24 +61,13 @@
 </ng-template>
 
 <ng-template #checkbox let-item='item'>
-  <mat-checkbox class="mt-3" color="primary" [(ngModel)]="item.value" (change)="this.changeDisabled(item)"><mat-label>{{item.label}}</mat-label></mat-checkbox>
-</ng-template>
-
-<ng-template #autocomplete let-item='item'>
-  <mat-form-field class="example-full-width" appearance="outline" floatLabel="always" >
+  <mat-checkbox class="mt-3" color="primary" [(ngModel)]="item.value" (change)="this.changeDisabled(item)">
     <mat-label>{{item.label}}</mat-label>
-    <input type="text" [(ngModel)]="item.value" matInput
-           [matAutocomplete]="auto">
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-      <mat-option value="Linda Blahova">Linda Blahova</mat-option>
-      <mat-option value="Roman Dobrik">Roman Dobrik</mat-option>
-      <mat-option value="Jozef Petrik">Jozef Petrik</mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+  </mat-checkbox>
 </ng-template>
 
 <ng-template #number let-item='item'>
-  <mat-form-field appearance="outline" floatLabel="always" >
+  <mat-form-field appearance="outline" floatLabel="always">
     <mat-label>{{item.label}}</mat-label>
     <input matInput type="number" [(ngModel)]="item.value">
   </mat-form-field>
@@ -89,8 +76,8 @@
 <ng-template #select let-item='item'>
   <mat-form-field appearance="outline" floatLabel="always">
     <mat-label>{{item.label}}</mat-label>
-    <mat-select  [(ngModel)]="item.value">
-      <mat-option value="one"> </mat-option>
+    <mat-select [(ngModel)]="item.value">
+      <mat-option *ngFor="let bed of this.beds" [value]="bed.bedNumber" (click)="this.chosenBed = bed">{{bed.bedNumber}}</mat-option>
     </mat-select>
   </mat-form-field>
 </ng-template>
@@ -100,12 +87,7 @@
     <mat-label>{{item.label}}</mat-label>
     <mat-select [(ngModel)]="item.value" [multiple]="true" #multiSelect>
       <mat-option>
-        <ngx-mat-select-search ngModel (ngModelChange)="filterMedicals($event)"
-                               placeholderLabel="Zadajte hľadaný kód"
-                               noEntriesFoundLabel="Hľadané liečivo nebolo nájdené"></ngx-mat-select-search>
-      </mat-option>
-      <mat-option *ngFor="let bank of filteredMedicals" [value]="bank">
-        {{bank}}
+        <ngx-mat-select-search ngModel></ngx-mat-select-search>
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -114,30 +96,55 @@
 <ng-template #autocompleteSelect let-item='item'>
   <mat-form-field appearance="outline" floatLabel="always">
     <mat-label>{{item.label}}</mat-label>
-    <mat-select [(ngModel)]="item.value" #autocompleteSelect>
-      <mat-option>
-        <ngx-mat-select-search ngModel (ngModelChange)="filterPatients($event)"
-                               placeholderLabel="Zadajte meno alebo rodne cislo pacienta"
-                               noEntriesFoundLabel="Hľadany pacient nebol najdeny"></ngx-mat-select-search>
-      </mat-option>
-      <mat-option *ngFor="let bank of filteredPatients" [value]="bank">
-        {{bank}}
-      </mat-option>
+    <mat-select [(ngModel)]="item.value" [id]="item.id" #autocompleteSelect>
+      <div *ngIf="autocompleteSelect.id === 'firstnameLastname'">
+        <mat-option>
+          <ngx-mat-select-search ngModel (ngModelChange)="filterPatients($event)"
+                                 placeholderLabel="Zadajte meno alebo rodné číslo pacienta"
+                                 noEntriesFoundLabel="Hľadaný pacient nebol najdený"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let patient of filteredPatients" (click)="this.chosenPatient = patient; getAvailableRooms()"
+                    [value]="patient.person.identificationNumber + ' - ' + patient.person.firstname + ' ' + patient.person.lastname">
+          {{patient.person.identificationNumber + ' - ' + patient.person.firstname + ' ' + patient.person.lastname}}
+        </mat-option>
+      </div>
+      <div *ngIf="autocompleteSelect.id === 'diagnose'">
+        <mat-option>
+          <ngx-mat-select-search ngModel (ngModelChange)="filterDiagnoses($event)"
+                                 placeholderLabel="Zadajte kód alebo názov diagnózy"
+                                 noEntriesFoundLabel="Hľadaná diagnóza nebola nájdená"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let diagnose of filteredDiagnoses"
+                    [value]="diagnose.idDiagnose + ' - ' + diagnose.diagnoseName" (click)="this.chosenDiagnose = diagnose">
+          {{diagnose.idDiagnose + ' - ' + diagnose.diagnoseName}}
+        </mat-option>
+      </div>
+      <div *ngIf="autocompleteSelect.id === 'room'">
+        <mat-option>
+          <ngx-mat-select-search ngModel (ngModelChange)="filterRooms($event)"
+                                 placeholderLabel="Zadajte číslo miestnosti"
+                                 noEntriesFoundLabel="Hľadaná miestnosť nebola nájdená"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let room of filteredRooms" (click)="this.chosenRoom = room; getAvailableRoomBeds()"
+                    [value]="room.roomNumber">
+          {{room.roomNumber}}
+        </mat-option>
+      </div>
     </mat-select>
   </mat-form-field>
 </ng-template>
 
 <ng-template #datepicker let-item='item'>
-  <mat-form-field appearance="outline" floatLabel="always" >
-  <mat-label>{{item.label}}</mat-label>
-  <input matInput [disabled]="item.disabled" [(ngModel)]="item.value" [matDatepicker]="picker1">
-  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-  <mat-datepicker #picker1></mat-datepicker>
-</mat-form-field>
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>{{item.label}}</mat-label>
+    <input matInput [disabled]="item.disabled" [(ngModel)]="item.value" [matDatepicker]="picker1"  >
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
 </ng-template>
 
 <ng-template #timepicker let-item='item'>
-  <mat-form-field appearance="outline" floatLabel="always" >
+  <mat-form-field appearance="outline" floatLabel="always">
     <mat-label>{{item.label}}</mat-label>
     <input matInput type="time" [disabled]="item.disabled" [(ngModel)]="item.value">
   </mat-form-field>

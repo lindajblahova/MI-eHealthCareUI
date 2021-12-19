@@ -2,7 +2,7 @@ export interface IPerson {
   firstname: string;
   lastname: string;
   birthLastname?: string;
-  sex: number;
+  sex: string;
   maritalStatus: string;
   identificationNumber: string;
   dateOfBirth: string;
@@ -25,7 +25,7 @@ export class Person implements IPerson{
   firstname: string = '';
   lastname: string = '';
   birthLastname?: string = '';
-  sex: number | null = null ;
+  sex: string = '';
   maritalStatus: string = '';
   identificationNumber: string = '';
   dateOfBirth: string = '';

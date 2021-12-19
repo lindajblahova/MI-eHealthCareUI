@@ -3,8 +3,8 @@
     <div class="container inline">
       <div class="row px-4 d-flex">
         <div class="col-2" style="padding-left: 5rem; padding-top: 0.5rem; margin-left: -85px">
-          <img *ngIf="patient.person.sex === 0" style="width: 70px; height: 70px" src="assets/man.png">
-          <img *ngIf="patient.person.sex === 1" style="width: 70px; height: 70px" src="assets/woman.png">
+          <img *ngIf="patient.person.sex === 'mužské'" style="width: 70px; height: 70px" src="assets/man.png">
+          <img *ngIf="patient.person.sex === 'ženské'" style="width: 70px; height: 70px" src="assets/woman.png">
         </div>
         <h1 class="col-10 h1 mt-3 " style="padding: 0.7rem 0rem; font-size: xxx-large">
           | &nbsp; {{ patient.id}} &nbsp; | &nbsp;
@@ -22,12 +22,12 @@
         <mat-card-title>
           <div class="row px-4 my-0">
             <h1 class="m-0 col-6"
-                *ngIf="patient.person.sex === 1 && patient.person.birthLastname !== ''"
+                *ngIf="patient.person.sex === 'ženské' && patient.person.birthLastname !== ''"
             >Rodné priezvisko:</h1>
-            <h1 class="m-0 col-6">{{ patient.person.birthLastname}}</h1>
+            <h1 *ngIf="patient.person.sex === 'ženské' && patient.person.birthLastname !== ''"  class="m-0 col-6">{{ patient.person.birthLastname}}</h1>
             <h1 class="m-0 col-6">Pohlavie:</h1>
-            <h1 class="m-0 col-6" *ngIf="patient.person.sex === 1">ženské</h1>
-            <h1 class="m-0 col-6" *ngIf="patient.person.sex === 0">mužské</h1>
+            <h1 class="m-0 col-6" *ngIf="patient.person.sex === 'ženské'">ženské</h1>
+            <h1 class="m-0 col-6" *ngIf="patient.person.sex === 'mužské'">mužské</h1>
             <h1 class="m-0 col-6">Rodinný stav:</h1>
             <h1 class="m-0 col-6">{{ patient.person.maritalStatus}}</h1>
             <h1 class="m-0 col-6">Doklad totožnosti:</h1>

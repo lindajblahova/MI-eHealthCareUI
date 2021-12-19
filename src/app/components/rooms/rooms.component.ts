@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {MatTableFilter} from "mat-table-filter";
-import {IRoom, Room} from "../../objects/interfaces/IRoom";
+import {Bed, IBed, IRoom, Room} from "../../objects/interfaces/IRoom";
 import {MatTableDataSource} from "@angular/material/table";
-import {IHospitalization, TableColumn} from "../hospitalizations/hospitalizations.component";
+import { TableColumn} from "../hospitalizations/hospitalizations.component";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {BottomSheetComponent} from "./bottom-sheet/bottom-sheet.component";
 import {FormConfig, FormItemConfig} from "../../objects/form.config";
+import {RoomService} from "../../services/room.service";
 
 @Component({
   selector: 'app-rooms',
@@ -14,82 +15,12 @@ import {FormConfig, FormItemConfig} from "../../objects/form.config";
 })
 export class RoomsComponent implements OnInit {
 
-  data: Room[] = [
-    {
-      floor: '1',
-      roomNumber: '1',
-      capacity: 4,
-      occupancy: 3,
-      isFull: false,
-      gender: 'mužská'
-    },
-    {
-      floor: '1',
-      roomNumber: '2',
-      capacity: 4,
-      occupancy: 2,
-      isFull: false,
-      gender: 'mužská'
-    },
-    {
-      floor: '1',
-      roomNumber: '3',
-      capacity: 4,
-      occupancy: 4,
-      isFull: true,
-      gender: 'mužská'
-    },
-    {
-      floor: '1',
-      roomNumber: '4',
-      capacity: 4,
-      occupancy: 0,
-      isFull: false,
-      gender: 'mužská'
-    },
-    {
-      floor: '2',
-      roomNumber: '1',
-      capacity: 4,
-      occupancy: 4,
-      isFull: true,
-      gender: 'ženská'
-    },
-    {
-      floor: '2',
-      roomNumber: '2',
-      capacity: 4,
-      occupancy: 2,
-      isFull: false,
-      gender: 'ženská'
-    },
-    {
-      floor: '2',
-      roomNumber: '3',
-      capacity: 4,
-      occupancy: 0,
-      isFull: false,
-      gender: 'ženská'
-    },
-    {
-      floor: '2',
-      roomNumber: '4',
-      capacity: 4,
-      occupancy: 1,
-      isFull: false,
-      gender: 'ženská'
-    }
-  ];
-
-  dataSource = new MatTableDataSource(this.data);
+  rooms: IRoom[];
+  dataSource: MatTableDataSource<any>;
   clickedButton: number = 2;
-  filterEntity: Room = new Room();
+  filterEntity: IRoom = new Room();
   filterType: MatTableFilter = MatTableFilter.ANYWHERE;
   displayedColumns: TableColumn[] = [
-    {
-      id: 'floor',
-      label: 'Poschodie'
-    },
     {
       id: 'roomNumber',
       label: 'Číslo izby'
@@ -108,14 +39,18 @@ export class RoomsComponent implements OnInit {
     }
 
   ];
-  displayedCols: string[] = ['floor', 'roomNumber', 'capacity', 'occupancy', 'gender'];
+  displayedCols: string[] = ['roomNumber', 'capacity', 'occupancy', 'gender'];
   public config?: FormConfig;
 
-  constructor(private _bottomSheet: MatBottomSheet) {}
+  constructor(private _bottomSheet: MatBottomSheet, private roomService: RoomService) {
+    this.rooms = this.roomService.getAllRooms();
+  }
+
+  findColumnValue = (element:unknown, column:string):string => <string>column.split('.').reduce((acc, cur) => acc[cur], element);
 
   ngOnInit(): void {
     this.setConfig();
-
+    this.dataSource = new MatTableDataSource(this.rooms);
   }
 
   public setConfig() {
@@ -125,14 +60,6 @@ export class RoomsComponent implements OnInit {
         {
           name: "",
           items: [
-            {
-              id: 'floor',
-              label: 'Poschodie',
-              type: 'text',
-              class: '',
-              value: '',
-              required: false
-            },
             {
               id: 'roomNumber',
               label: 'Číslo izby',
@@ -189,9 +116,6 @@ export class RoomsComponent implements OnInit {
   filterTable(item: FormItemConfig) {
 
     switch (item.id) {
-      case 'floor':
-        this.filterEntity.floor = item.value;
-        break;
       case 'roomNumber':
         this.filterEntity.roomNumber = item.value;
         break;
@@ -209,8 +133,9 @@ export class RoomsComponent implements OnInit {
   }
 
   openBottomSheet(room: Room): void {
+    var roomBeds = this.roomService.getRoomBeds(room);
     this._bottomSheet.open(BottomSheetComponent, {
-      data: { room },
+      data: { room, roomBeds },
     });
   }
 
