@@ -25,6 +25,8 @@ export class InfoRowComponent implements OnInit, OnChanges {
   dateTo: Date;
   invalidDate;
 
+  isFormDisplayed: boolean = true;
+
 
   public patient: IPatient;
   public patientDiagnoseRecords: DiagnoseRecord[];
@@ -41,6 +43,9 @@ export class InfoRowComponent implements OnInit, OnChanges {
     {
       this.hospitalization.dateTo = null;
     }
+
+    this.isFormDisplayed = this.diagnoseRecordService.getPatientDiagnoses(this.patient.id).find(
+        record => record.hospitalization === this.hospitalization) === undefined;
 
     this.patientDiagnoseRecords = this.diagnoseRecordService.getPatientDiagnoses(this.patient.id);
     this.dataSource = new MatTableDataSource(this.patientDiagnoseRecords);
@@ -75,6 +80,24 @@ export class InfoRowComponent implements OnInit, OnChanges {
     }
   }
 
+  saveDiagnoseRecord(): void
+  {
+    var arrayData: any = {};
+    this.config.sections.forEach((section) => {
+      section.items.forEach((item) => {
+        arrayData[item.id] = item.value;
+      });
+    });
+
+    this.newDiagnoseRecord.localization = arrayData['localization'];
+    this.newDiagnoseRecord.localization = arrayData['localization'];
+    this.newDiagnoseRecord.description = arrayData['description'];
+    this.newDiagnoseRecord.severity = arrayData['severity'];
+    this.newDiagnoseRecord.state = arrayData['state'];
+    this.diagnoseRecordService.saveDiagnoseRecord(this.newDiagnoseRecord);
+    this.ngOnInit();
+  }
+
   public setConfig() {
     const formCnfg: FormConfig = {
       sections: [
@@ -82,15 +105,15 @@ export class InfoRowComponent implements OnInit, OnChanges {
           name: "",
           items: [
             {
-              id: 'diagnoza',
+              id: 'diagnose',
               label: 'Diagnóza',
               type: 'text',
               class: '',
               value: this.newDiagnoseRecord.diagnose.idDiagnose + '' + this.newDiagnoseRecord.diagnose.diagnoseName,
-              required: false
+              required: false,
             },
             {
-              id: 'lokalizacia',
+              id: 'localization',
               label: 'Lokalizácia',
               type: 'text',
               class: '',
@@ -98,7 +121,7 @@ export class InfoRowComponent implements OnInit, OnChanges {
               required: false
             },
             {
-              id: 'popis',
+              id: 'description',
               label: 'Popis',
               type: 'text',
               class: '',
@@ -106,20 +129,22 @@ export class InfoRowComponent implements OnInit, OnChanges {
               required: false
             },
             {
-              id: 'zavaznost',
+              id: 'severity',
               label: 'Závažnosť',
-              type: 'text',
+              type: 'select',
               class: '',
               value: this.newDiagnoseRecord.severity,
-              required: false
+              required: false,
+              options: ["0 - Minimálna","1 - Nízka", "2 - Mierna", "3 - Vysoká", "4 - Maximálna"],
             },
             {
-              id: 'stav',
+              id: 'state',
               label: 'Stav',
-              type: 'text',
+              type: 'select',
               class: '',
               value: this.newDiagnoseRecord.state,
-              required: false
+              required: false,
+              options: ["0 - Prebiehajúce","1 - Prekonané"],
             }
           ]
         }

@@ -48,6 +48,8 @@ import { BottomSheetComponent } from './components/rooms/bottom-sheet/bottom-she
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { DatePipe } from '@angular/common';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ModalClosedHospitalizationComponent } from './components/modal-closed-hospitalization/modal-closed-hospitalization.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { DatePipe } from '@angular/common';
     FormComponentComponent,
     PatientDetailComponent,
     RoomsComponent,
-    BottomSheetComponent
+    BottomSheetComponent,
+    ModalClosedHospitalizationComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +107,8 @@ import { DatePipe } from '@angular/common';
     MatIconModule,
     MatBottomSheetModule,
     MatGridListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

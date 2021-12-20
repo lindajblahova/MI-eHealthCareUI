@@ -67,8 +67,12 @@ export class DismissalComponent implements OnInit, OnChanges {
       this.hospitalization.dismissal.numberOfDaysOnICU = arrayData['numberOfDaysOnICU'];
       this.hospitalization.dismissal.recommendations = arrayData['recommendations'];
       this.hospitalization.dismissal.treatmentType = arrayData['treatmentType'];
-      this.roomService.removePatientFromBed(this.hospitalization.bed);
-      this.hospitalization.bed = null;
+
+      if (this.hospitalization.ongoing === false && this.hospitalization.bed !== null)
+      {
+        this.roomService.removePatientFromBed(this.hospitalization.bed);
+        this.hospitalization.bed = null;
+      }
 
       if (this.hospitalization.dismissal.death === true) {
         this.hospitalization.dismissal.dateOfDeath = new Date(new Date(arrayData['dateOfDeath']));

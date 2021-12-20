@@ -5,10 +5,10 @@
         <div class="row px-4 py-3" >
           <h1 class="col-10 h1"><i class="fa fa-address-card-o"></i> Hospitalizácia {{this.hospitalization.idHospitalization}}</h1>
           <button mat-raised-button [color]="this.editMode ? 'edit' :'primary'" class="button col-2"
-                  (click)="this.switchMode()">{{this.buttonValue}}</button>
+                  (click)="this.hospitalization.ongoing ? this.switchMode() : this.editMode ? this.switchMode() : this.openDialog()">{{this.buttonValue}}</button>
         </div>
-        <form #myForm="ngForm" style="font-size: 14px; display: flex" *ngIf="this.hospitalization.ongoing === true">
-
+        <form #myForm="ngForm" style="font-size: 14px; display: flex" *ngIf="this.hospitalization.ongoing === true &&
+        this.hospitalization.bed !== null">
           <mat-form-field class="col-2 px-5 readonlyRoom" appearance="outline" floatLabel="always" style="outline: 0px">
             <mat-label>Izba</mat-label>
             <input matInput [readonly]="true" name="roomNumber"
@@ -23,7 +23,6 @@
           <div *ngIf="this.editMode && this.hospitalization.ongoing === true" style="padding-left: 70px">
             <button mat-raised-button color="end" class="button col-2" style="width: 100%;" (click)="endHospitalization()"
                     >Ukončíť hospitalizáciu</button>
-<!--            -->
           </div>
         </form>
       </div>

@@ -19,6 +19,7 @@ export interface IHospitalization {
   anamnesis: IAnamnesis;
   acceptance: IAcceptance;
   dismissal: IDismissal;
+
 }
 
 export class Hospitalization implements IHospitalization {

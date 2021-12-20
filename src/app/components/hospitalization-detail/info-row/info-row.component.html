@@ -115,28 +115,49 @@
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
           </ng-container>
-
-
         </div>
 
         <div class="container px-4 pt-2">
           <div class="row">
-            <h2>Aktuálna diagnóza</h2>
-            <mat-grid-list cols="5" rowHeight="65px" *ngFor="let section of config?.sections">
-              <mat-grid-tile *ngFor="let item of section.items">
-                <div [ngClass]="item.class">
-                  <mat-form-field appearance="outline" floatLabel="always" [ngClass]="{'readonly': !this.editMode}">
-                    <mat-label>{{item.label}}</mat-label>
-                    <input matInput type="text" [(ngModel)]="item.value" [readonly]="!this.editMode">
-                  </mat-form-field>
-                </div>
-              </mat-grid-tile>
-            </mat-grid-list>
+            <form #myForm="ngForm" *ngIf="this.isFormDisplayed">
+              <h2>Aktuálna diagnóza</h2>
+              <mat-grid-list cols="5" rowHeight="65px" *ngFor="let section of config?.sections">
+                <mat-grid-tile *ngFor="let item of section.items">
+                  <div [ngClass]="item.class">
+                    <ng-container *ngIf="item.type == 'text'" [ngTemplateOutlet]="text"
+                                  [ngTemplateOutletContext]="{item:item}"></ng-container>
+                    <ng-container *ngIf="item.type == 'select'" [ngTemplateOutlet]="select"
+                                  [ngTemplateOutletContext]="{item:item}"></ng-container>
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+              <div style="text-align: center; padding: 0 1rem">
+                <button mat-raised-button color="end"  style="width: 20%;" [disabled]="!this.editMode" (click)="saveDiagnoseRecord()">
+                  Pridať diagnózu
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </mat-expansion-panel>
     </div>
   </div>
 </div>
+
+<ng-template #text let-item='item'>
+  <mat-form-field appearance="outline" floatLabel="always" [ngClass]="{'readonly': !this.editMode}">
+    <mat-label>{{item.label}}</mat-label>
+    <input matInput type="text" [name]="item.id" [(ngModel)]="item.value" [readonly]="!this.editMode">
+  </mat-form-field>
+</ng-template>
+
+<ng-template #select let-item='item'>
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>{{item.label}}</mat-label>
+    <mat-select [(ngModel)]="item.value" [disabled]="!this.editMode" [name]="item.label">
+      <mat-option *ngFor="let option of item.options" [value]="option"> {{option}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>
 
 
