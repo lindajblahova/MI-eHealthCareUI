@@ -16,19 +16,35 @@ export class DiagnoseRecordService {
         diagnose: this.diagnoseService.getAllDiagnoses()[0],
         patient: this.patientService.getAllPatients()[0],
         localization: '',
-        severity: '0 - Nízka',
-        state: 'Prebiehajúce',
+        severity: '0 - Minimálna',
+        state: '0 - Prebiehajúce',
         hospitalized: false
       },
       {
-        idDiagnoseRecord: '3132',
-        diagnose: this.diagnoseService.getAllDiagnoses()[1],
+        idDiagnoseRecord: '31324',
+        diagnose: this.diagnoseService.getAllDiagnoses()[35],
         patient: this.patientService.getAllPatients()[1],
         localization: 'pravé predkolenie',
-        severity: '0 - Nízka',
-        state: 'Prebiehajúce',
+        severity: '1 - Nízka',
+        state: '0 - Prebiehajúce',
         hospitalized: true,
         hospitalization: this.hospitalizationService.getAllHospitalizations()[1]
+      },
+      {
+        idDiagnoseRecord: '75125',
+        diagnose: this.diagnoseService.getAllDiagnoses()[20],
+        patient: this.patientService.getAllPatients()[2],
+        severity: '2 - Mierna',
+        state: '0 - Prebiehajúce',
+        hospitalized: false,
+      },
+      {
+        idDiagnoseRecord: '75125',
+        diagnose: this.diagnoseService.getAllDiagnoses()[38],
+        patient: this.patientService.getAllPatients()[3],
+        severity: '3 - Vysoká',
+        state: '1 - Prekonané',
+        hospitalized: false,
       },
     ];
 

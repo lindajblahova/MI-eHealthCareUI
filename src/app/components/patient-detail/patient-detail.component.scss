@@ -32,3 +32,31 @@ mat-card {
   overflow-x: auto;
   display: block;
 }
+
+.transparent{
+  background-color: #b3acd7;
+}
+
+
+.mat-table {
+  overflow-x: scroll;
+  overflow-scrolling: auto;
+}
+
+.mat-row,
+.mat-header-row {
+  display: table-row;
+}
+
+.mat-cell,
+.mat-header-cell {
+  word-wrap: initial;
+  display: table-cell;
+  padding: 0px 10px;
+  line-break: unset;
+  width: 25%;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+
+}

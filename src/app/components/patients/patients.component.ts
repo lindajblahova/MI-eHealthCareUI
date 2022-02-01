@@ -23,7 +23,7 @@ export class PatientsComponent implements OnInit {
   person: Person = new Person();
   filterEntity: Patient = new Patient(this.person);
   filterType: MatTableFilter = MatTableFilter.ANYWHERE;
-  clickedPatient: Patient;
+  clickedButton: number = 1;
   public config?: FormConfig;
 
   constructor(private patientService: PatientService, private router: Router, private sharedService: SharedService) {
@@ -32,6 +32,7 @@ export class PatientsComponent implements OnInit {
   ngOnInit(): void {
     this.setConfig();
     this.patients = this.patientService.getAllPatients();
+    this.filterEntity.person.dateOfDeath = "-";
     this.dataSource = new MatTableDataSource(this.patients);
   }
 
@@ -104,5 +105,18 @@ export class PatientsComponent implements OnInit {
     this.sharedService.loading = true;
     await new Promise(f => setTimeout(f, 200));
     this.router.navigate(['/patient/' + patient.id]);
+  }
+
+  changePatientsType(id: number) {
+
+    this.clickedButton = id;
+    switch (this.clickedButton) {
+      case 1:
+        this.filterEntity.person.dateOfDeath = "-";
+        break;
+      case 2:
+        this.filterEntity.person.dateOfDeath = ".";
+        break;
+    }
   }
 }
