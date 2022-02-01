@@ -5,15 +5,16 @@
       <mat-card-actions>
         <form>
           <div class="container">
-            <div class="row px-4">
+            <div class="row px-4"  style="margin: auto;">
               <mat-form-field appearance="outline" floatLabel="always">
                 <mat-label>Číslo používateľa</mat-label>
-                <input matInput type="number" id="number">
+                <input matInput type="number" id="number" name="username" [(ngModel)]="this.username">
               </mat-form-field>
-              <mat-form-field appearance="outline" floatLabel="always">
+              <mat-form-field appearance="outline" floatLabel="always" style="margin: auto;">
                 <mat-label>Heslo</mat-label>
-                <input matInput type="password" id="password">
+                <input matInput type="password" id="password" name="password" [(ngModel)]="this.password">
               </mat-form-field>
+              <mat-hint class="mt-0 pb-4" *ngIf="this.hintShow" style="font-size: small;">Číslo alebo meno používateľa nie je správne!</mat-hint>
             </div>
           </div>
           <span class="d-flex justify-content-center mb-3">

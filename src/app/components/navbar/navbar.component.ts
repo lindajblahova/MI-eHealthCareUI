@@ -3,6 +3,7 @@ import {MenuConfig, MenuItemConfig} from "../../objects/menu.config";
 import {Router} from "@angular/router";
 import {DoctorService} from "../../services/doctor.service";
 import {IDoctor} from "../../objects/interfaces/IDoctor";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-navbar',
@@ -12,10 +13,9 @@ import {IDoctor} from "../../objects/interfaces/IDoctor";
 export class NavbarComponent implements OnInit {
 
   public config?: MenuConfig;
-  public doctor: IDoctor
 
-  constructor(private router: Router, private doctorService: DoctorService) {
-    this.doctor = this.doctorService.getDoctor('25470');
+  constructor(private router: Router, public authService: AuthService) {
+
   }
 
   ngOnInit(): void {
@@ -36,7 +36,8 @@ export class NavbarComponent implements OnInit {
               icon: 'fa fa-plus',
               path: '/add'
             }
-          ]
+          ],
+          active: true
         },
         {
           title: 'Hospitalizácie',
@@ -87,6 +88,8 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
+    this.authService.logOut();
+    this.router.navigate(['/sign-in']);
   }
 
 }

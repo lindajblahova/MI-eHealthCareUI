@@ -8,8 +8,8 @@
       <i class="fa fa-building-o"></i>
       <span class="mt-4"> ODCH | Chirurgické Oddelenie</span>
     </div>
-    <div class="doctor mt-0" style="font-size: large">
-      <i class="fa fa-user-md m=0" style="font-size: large"></i> {{doctor.title}} {{doctor.person.firstname}} {{doctor.person.lastname}}
+    <div *ngIf="this.authService.isLogged() == true" class="doctor mt-0" style="font-size: large">
+      <i class="fa fa-user-md m=0" style="font-size: large"></i> {{this.authService.getActiveUser().doctor.title}} {{this.authService.getActiveUser().doctor.person.firstname}} {{this.authService.getActiveUser().doctor.person.lastname}}
     </div>
     <hr>
     <div class="container" style="padding: 0.5rem 1.5rem 0 1.5rem; ">
@@ -18,8 +18,8 @@
           <li class="side-nav-item">
             <a class="p-3" href=""
                [ngClass]="menuItem.active ? 'active' : ''"
-               [routerLink]="menuItem.path"
-               (click)="$event.preventDefault(); setActiveItem(menuItem); setOpenItem(menuItem);">
+               (click)="$event.preventDefault(); setActiveItem(menuItem); setOpenItem(menuItem);
+               menuItem.path == 'sign-in' ? this.logOut() : this.navigateTo(menuItem) ">
               <i class="icon" [ngClass]='[menuItem.icon, menuItem.active ? "active" : ""]'></i>
               <span class="title">{{menuItem.title}}</span>
             </a>
