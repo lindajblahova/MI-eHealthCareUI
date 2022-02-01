@@ -119,7 +119,6 @@ export class HospitalizationsComponent implements OnInit {
 
     this.setConfig();
     this.dataSource = new MatTableDataSource(this.hospitalizations);
-    console.log(this.hospitalizations);
   }
 
   findColumnValue = (element:unknown, column:string):string => <string>column.split('.').reduce((acc, cur) => acc[cur], element);

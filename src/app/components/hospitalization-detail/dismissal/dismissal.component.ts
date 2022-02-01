@@ -74,8 +74,9 @@ export class DismissalComponent implements OnInit, OnChanges {
         this.hospitalization.bed = null;
       }
 
-      if (this.hospitalization.dismissal.death === true) {
-        this.hospitalization.dismissal.dateOfDeath = new Date(new Date(arrayData['dateOfDeath']));
+      if (this.hospitalization.dismissal.death === true && this.hospitalization.patient.person.dateOfDeath === "-") {
+        this.hospitalization.dismissal.dateOfDeath = new Date(arrayData['dateOfDeath']);
+        this.hospitalization.patient.person.dateOfDeath = new Date(arrayData['dateOfDeath']).toLocaleDateString();
       }
     }
     this.ngOnInit();

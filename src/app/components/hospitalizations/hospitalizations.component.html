@@ -12,17 +12,17 @@
   <div fxFlex="33.33%" fxFlex.sm="100%">
     <button id="1" mat-raised-button (click)="changeHospitalizationType(1)"
             [ngClass]="{ 'btn-clicked': this.clickedButton === 1, 'btn-not-clicked': this.clickedButton !== 1}"
-            class="button"><h3 class="p-0 m-1"><i class="icon fa fa-spinner"></i> Prebiehajuce</h3></button>
+            class="button"><h3 class="p-0 m-1"><i class="icon fa fa-spinner"></i> Prebiehajúce</h3></button>
   </div>
   <div fxFlex="33.33%" fxFlex.sm="100%">
     <button id="2" (click)="changeHospitalizationType(2)" mat-raised-button
             [ngClass]="{ 'btn-clicked': this.clickedButton === 2, 'btn-not-clicked': this.clickedButton !== 2}"
-            class="button"><h3 class="p-0 m-1"><i class="icon fa fa-check-circle-o"></i> Ukoncene</h3></button>
+            class="button"><h3 class="p-0 m-1"><i class="icon fa fa-check-circle-o"></i> Ukončené</h3></button>
   </div>
   <div fxFlex="33.33%" fxFlex.sm="100%">
     <button id="3" (click)="changeHospitalizationType(3)" mat-raised-button style="padding-right: 0rem"
             [ngClass]="{ 'btn-clicked': this.clickedButton === 3, 'btn-not-clicked': this.clickedButton !== 3}"
-            class="button"><h3 class="p-0 m-1"><i class="icon fa fa-globe"></i> Vsetky</h3></button>
+            class="button"><h3 class="p-0 m-1"><i class="icon fa fa-globe"></i> Všetky</h3></button>
   </div>
 </div>
 

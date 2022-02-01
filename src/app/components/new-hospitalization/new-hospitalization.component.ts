@@ -45,7 +45,7 @@ export class NewHospitalizationComponent implements OnInit {
               private router: Router, private authService: AuthService) {
     this.patients = this.hospitalizationService.currentlyNonHospitalizedPatients();
     this.diagnoses = this.diagnoseService.getAllDiagnoses();
-    this.acceptingDoctor = this.authService.getActiveUser();
+    this.acceptingDoctor = this.authService.getActiveUser().doctor;
   }
 
   ngOnInit(): void {
@@ -88,37 +88,6 @@ export class NewHospitalizationComponent implements OnInit {
               class: '',
               value: null,
               required: true
-            }
-          ]
-        },
-        {
-          name: "",
-          items: [
-            {
-              id: 'dateTo',
-              label: 'Dátum do',
-              type: 'datepicker',
-              class: '',
-              value: null,
-              required: true,
-              disabled: false
-            },
-            {
-              id: 'timeTo',
-              label: 'Čas do',
-              type: 'timepicker',
-              class: '',
-              value: null,
-              required: true
-            },
-            {
-              id: 'ongoing',
-              label: 'Prebiehajúca',
-              type: 'checkbox',
-              class: '',
-              value: '',
-              required: false,
-              willDisable: ['dateTo', 'timeTo']
             }
           ]
         },
@@ -254,8 +223,8 @@ export class NewHospitalizationComponent implements OnInit {
       patient: this.chosenPatient,
       dateFrom: new Date(arrayData['dateFrom']),
       timeFrom: arrayData['timeFrom'],
-      ongoing: arrayData['ongoing'],
-      dateTo:  arrayData['ongoing'] === false ? new Date(arrayData['dateTo']) : new Date(0),
+      ongoing: true,
+      dateTo:  new Date(0),
       timeTo: arrayData['timeTo'],
       diagnose: this.chosenDiagnose,
       bed: this.chosenBed,

@@ -24,3 +24,18 @@ mat-panel-title {
   vertical-align: middle;
 
 }
+
+.button {
+  width: 100%;
+  padding: 0.5rem 0rem;
+}
+
+.btn-not-clicked {
+  background-color: rgb(255, 255, 255);
+  color: #3f1e77;
+}
+
+.btn-clicked {
+  background-color: #3f1e77;
+  color: white;
+}
